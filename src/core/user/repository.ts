@@ -1,6 +1,12 @@
+import { Transaction } from 'sequelize'
+
+import { CreatedModel } from '@/infra/repository/types'
+import { DatabaseOptionsType, SaveOptionsType } from '@/utils/sequelize'
+
 import { UserEntity } from './entity/user'
 
 export abstract class IUserRepository {
-  abstract findOne(params: { username?: string; email?: string }): Promise<UserEntity>
-  abstract create(user: UserEntity): Promise<UserEntity>
+  abstract findByUsernameOrEmail(username: string, email: string, options?: DatabaseOptionsType): Promise<UserEntity>
+  abstract create(user: UserEntity, saveOptions?: SaveOptionsType): Promise<CreatedModel>
+  abstract startTransaction<T = Transaction>(): Promise<T>
 }
