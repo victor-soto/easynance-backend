@@ -7,13 +7,14 @@ import { CreateUserUseCase } from '@/core/user/usecases/create-user'
 import { IDatabaseAdapter } from '@/infra/database/adapter'
 import { DatabaseModule } from '@/infra/database/postgres'
 import { UserSchema } from '@/infra/database/postgres/schemas/user'
+import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
 import { ICreateUserAdapter } from './adapter'
 import { UserController } from './controller'
 import { UserRepository } from './repository'
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CryptoLibModule],
   providers: [
     {
       provide: IUserRepository,
@@ -25,10 +26,10 @@ import { UserRepository } from './repository'
     },
     {
       provide: ICreateUserAdapter,
-      useFactory: (repository: IUserRepository) => {
-        return new CreateUserUseCase(repository)
+      useFactory: (repository: IUserRepository, crypto: ICryptoAdapter) => {
+        return new CreateUserUseCase(repository, crypto)
       },
-      inject: [IUserRepository]
+      inject: [IUserRepository, ICryptoAdapter]
     }
   ],
   controllers: [UserController]

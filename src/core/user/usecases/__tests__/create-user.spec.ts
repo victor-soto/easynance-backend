@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Test } from '@nestjs/testing'
 
+import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 import { ICreateUserAdapter } from '@/modules/user/adapter'
 
 import { IUserRepository } from '../../repository'
@@ -27,6 +28,7 @@ describe('#CreateUserUseCase', () => {
 
   beforeEach(async () => {
     const app = await Test.createTestingModule({
+      imports: [CryptoLibModule],
       providers: [
         {
           provide: IUserRepository,
@@ -34,10 +36,10 @@ describe('#CreateUserUseCase', () => {
         },
         {
           provide: ICreateUserAdapter,
-          useFactory: (userRepository: IUserRepository) => {
-            return new CreateUserUseCase(userRepository)
+          useFactory: (userRepository: IUserRepository, crypto: ICryptoAdapter) => {
+            return new CreateUserUseCase(userRepository, crypto)
           },
-          inject: [IUserRepository]
+          inject: [IUserRepository, ICryptoAdapter]
         }
       ]
     }).compile()
@@ -50,7 +52,6 @@ describe('#CreateUserUseCase', () => {
   })
 
   it('when user created successfully, should expect an user that has been created', async () => {
-    userRepositoryMock.findByUsernameOrEmail.mockResolvedValueOnce(null)
     userRepositoryMock.create.mockResolvedValueOnce({ id: faker.number.int(10), created: true })
     const createdUser = await useCase.execute(userMock)
     expect(createdUser).toHaveProperty('id')
