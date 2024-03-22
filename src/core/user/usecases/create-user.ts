@@ -1,10 +1,13 @@
+import { ValidateSchema } from '@/common/decorators/validate-schema.decorator'
+
 import { UserEntity } from '../entity/user'
 import { IUserRepository } from '../repository'
-import { UserCreateOutput } from './types'
+import { UserCreateOutput, UserCreateSchema } from './types'
 
 export class CreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
+  @ValidateSchema(UserCreateSchema)
   async execute(input: any): Promise<UserCreateOutput> {
     const entity = new UserEntity(input)
 

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { CreatedModel } from '@/infra/repository/types'
 
-const UserCreateSchema = z.object({
+export const UserCreateSchema = z.object({
   username: z.string(),
   password: z.string(),
   email: z.string().email(),

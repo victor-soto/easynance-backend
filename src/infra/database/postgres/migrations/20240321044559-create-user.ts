@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,19 +21,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      firstName: {
+      first_name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      lastName: {
+      last_name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
@@ -41,6 +41,6 @@ module.exports = {
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async down(queryInterface, _Sequelize) {
-    await queryInterface.dropTable('Users')
+    await queryInterface.dropTable('users')
   }
 }
