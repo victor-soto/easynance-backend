@@ -32,6 +32,7 @@ import { UserRepository } from './repository'
       inject: [IUserRepository, ICryptoAdapter]
     }
   ],
-  controllers: [UserController]
+  controllers: [UserController],
+  exports: [IUserRepository]
 })
 export class UserModule {}

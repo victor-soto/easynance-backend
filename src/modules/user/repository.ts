@@ -26,6 +26,15 @@ export class UserRepository implements IUserRepository {
     return model.toJSON()
   }
 
+  async findLogin(usernameOrEmail: string, options?: DatabaseOptionsType): Promise<UserEntity> {
+    const { schema } = DatabaseOptionsSchema.parse(options)
+    const model = await this.repository
+      .schema(schema)
+      .findOne({ where: { [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }] } })
+    if (!model) return
+    return model.toJSON()
+  }
+
   async create(user: UserEntity, saveOptions: SaveOptionsType): Promise<CreatedModel> {
     const { schema, transaction } = DatabaseOptionsSchema.parse(saveOptions)
     const createdUser = await this.repository.schema(schema).create<Model<UserEntity>>(user, { transaction })

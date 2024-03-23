@@ -11,4 +11,8 @@ export class CryptoService implements ICryptoAdapter {
     const saltRounds = 10
     return await bcrypt.hash(input, saltRounds)
   }
+
+  async compareHash(input: string, inputHash: string): Promise<boolean> {
+    return await bcrypt.compare(input, inputHash)
+  }
 }

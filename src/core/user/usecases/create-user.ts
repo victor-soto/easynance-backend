@@ -25,7 +25,8 @@ export class CreateUserUseCase {
 
     try {
       const password = await this.crypto.createHash(entity.password)
-      const user = await this.userRepository.create({ ...entity, password: password }, { transaction: transaction })
+      entity.password = password
+      const user = await this.userRepository.create(entity, { transaction: transaction })
       await transaction.commit()
       return user
     } catch (err) {

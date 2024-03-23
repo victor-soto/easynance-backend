@@ -5,4 +5,6 @@ export abstract class ISecretAdapter {
   POSTGRES_USER: string
   POSTGRES_PASSWORD: string
   POSTGRES_TZ: string
+  JWT_SECRET_KEY: string
+  TOKEN_EXPIRATION: string
 }
