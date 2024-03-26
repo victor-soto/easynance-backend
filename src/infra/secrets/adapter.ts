@@ -7,4 +7,5 @@ export abstract class ISecretAdapter {
   POSTGRES_TZ: string
   JWT_SECRET_KEY: string
   TOKEN_EXPIRATION: string
+  REDIS_URL: string
 }

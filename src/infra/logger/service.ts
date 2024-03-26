@@ -7,4 +7,7 @@ export class LoggerService implements ILoggerAdapter {
   fatal(error: Error): void {
     console.error(error)
   }
+  error(error: Error): void {
+    console.error(error)
+  }
 }

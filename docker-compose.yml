@@ -15,6 +15,14 @@ services:
     volumes:
       - easynance-db:/var/lib/postgresql/data
     command: -p ${POSTGRES_PORT}
+  redis:
+    container_name: easynance-redis
+    image: 'redis:alpine'
+    volumes:
+      - easynance-redis:/data
+    ports:
+      - 6379:6379
 volumes:
+  easynance-redis:
   easynance-db:
     driver: local

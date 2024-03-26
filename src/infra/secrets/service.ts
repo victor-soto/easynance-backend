@@ -15,4 +15,5 @@ export class SecretService implements ISecretAdapter {
   POSTGRES_TZ = this.config.get('POSTGRES_TZ')
   JWT_SECRET_KEY = this.config.get('JWT_SECRET_KEY')
   TOKEN_EXPIRATION = this.config.get('TOKEN_EXPIRATION')
+  REDIS_URL = this.config.get('REDIS_URL')
 }
