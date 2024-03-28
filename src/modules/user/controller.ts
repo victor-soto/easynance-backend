@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 
+import { Public } from '@/common/decorators/public.decorator'
 import { CreateUserInput, ListUserInput, ListUserOutput } from '@/core/user/usecases/types'
 import { CreatedModel } from '@/infra/repository/types'
 import { SearchHttpSchema } from '@/utils/search'
@@ -15,6 +16,7 @@ export class UserController {
   ) {}
 
   @Post()
+  @Public()
   async create(@Body() body: CreateUserInput): Promise<CreatedModel> {
     return this.createUser.execute(body as CreateUserInput)
   }

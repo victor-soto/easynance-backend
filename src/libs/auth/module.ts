@@ -17,7 +17,7 @@ import { TokenService } from './service'
           secret: secret.JWT_SECRET_KEY,
           signOptions: { expiresIn: secret.TOKEN_EXPIRATION }
         })
-        return new TokenService(jwtService)
+        return new TokenService(jwtService, secret)
       },
       inject: [ISecretAdapter]
     }
