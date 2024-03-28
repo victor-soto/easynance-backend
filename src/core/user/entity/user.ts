@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { BaseEntity } from '@/utils/entity'
 
 export const UserEntitySchema = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   username: z.string(),
   password: z.string(),
   email: z.string().email(),
@@ -22,6 +22,10 @@ export class UserEntity extends BaseEntity<UserEntity>(UserEntitySchema) {
 
   constructor(entity: User) {
     super()
-    Object.assign(this, entity)
+    Object.assign(this, this.validate(entity))
+  }
+
+  anonymizePassword() {
+    this.password = '**********'
   }
 }

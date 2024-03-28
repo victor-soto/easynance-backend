@@ -3,7 +3,7 @@ import { ICryptoAdapter } from '@/libs/crypto'
 
 import { UserEntity } from '../entity/user'
 import { IUserRepository } from '../repository'
-import { UserCreateOutput, UserCreateSchema } from './types'
+import { CreateUserInput, CreateUserOutput, CreateUserSchema } from './types'
 
 export class CreateUserUseCase {
   constructor(
@@ -11,8 +11,8 @@ export class CreateUserUseCase {
     private readonly crypto: ICryptoAdapter
   ) {}
 
-  @ValidateSchema(UserCreateSchema)
-  async execute(input: any): Promise<UserCreateOutput> {
+  @ValidateSchema(CreateUserSchema)
+  async execute(input: CreateUserInput): Promise<CreateUserOutput> {
     const entity = new UserEntity(input)
 
     const userExists = await this.userRepository.findByUsernameOrEmail(entity.username, entity.email)

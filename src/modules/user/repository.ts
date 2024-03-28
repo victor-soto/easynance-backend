@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common'
 import { Op, Transaction } from 'sequelize'
 import { Model, ModelCtor } from 'sequelize-typescript'
 
+import { ConvertPaginateInputToSequelizeFilter } from '@/common/decorators/database/postgres/convert-paginate-input-to-sequelize-filter.decorator'
+import { ValidateDatabaseSortAllowed } from '@/common/decorators/database/postgres/validate-database-sort-allowed.decorator'
+import { SearchTypeEnum } from '@/common/decorators/types'
 import { UserEntity } from '@/core/user/entity/user'
 import { IUserRepository } from '@/core/user/repository'
+import { ListUserInput, ListUserOutput } from '@/core/user/usecases/types'
 import { UserSchema } from '@/infra/database/postgres/schemas/user'
 import { CreatedModel } from '@/infra/repository/types'
 import { DatabaseOptionsSchema, DatabaseOptionsType, SaveOptionsType } from '@/utils/sequelize'
@@ -40,5 +44,18 @@ export class UserRepository implements IUserRepository {
     const createdUser = await this.repository.schema(schema).create<Model<UserEntity>>(user, { transaction })
     const model = await createdUser.save()
     return { id: model.id, created: !!model.id }
+  }
+
+  @ValidateDatabaseSortAllowed<UserEntity>('createdAt', 'firstName', 'lastName')
+  @ConvertPaginateInputToSequelizeFilter<UserEntity>([
+    { name: 'firstName', type: SearchTypeEnum.like },
+    { name: 'lastName', type: SearchTypeEnum.like },
+    { name: 'email', type: SearchTypeEnum.like },
+    { name: 'username', type: SearchTypeEnum.like }
+  ])
+  async paginate(input: ListUserInput, options?: DatabaseOptionsType): Promise<ListUserOutput> {
+    const { schema } = DatabaseOptionsSchema.parse(options)
+    const list = await this.repository.schema(schema).findAndCountAll(input)
+    return { items: list.rows.map((r) => new UserEntity(r)), limit: input.limit, page: input.page, total: list.count }
   }
 }

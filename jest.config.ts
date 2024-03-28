@@ -4,7 +4,7 @@ import { compilerOptions } from './tsconfig.json'
 
 export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: 'src/core',
+  rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
   // transform: {
   //   '^.+\\.(t|j)s$': 'ts-jest'
@@ -24,5 +24,5 @@ export default {
   collectCoverageFrom: ['**/*.ts'],
   coverageDirectory: '../../coverage',
   coverageReporters: ['json-summary', 'lcov'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../../' })
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../' })
 }

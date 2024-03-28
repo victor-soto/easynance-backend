@@ -6,8 +6,7 @@ export function ValidateSchema<T>(schema: Schema) {
     descriptor.value = function (...args: any[]) {
       const model = schema.parse(args[0])
       args[0] = model
-      const result = originalMethod.apply(this, args)
-      return result
+      return originalMethod.apply(this, args)
     }
   }
 }
