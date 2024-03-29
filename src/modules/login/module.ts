@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 
 import { IUserRepository } from '@/core/user/repository'
 import { LoginUseCase } from '@/core/user/usecases/login-user'
+import { RedisCacheModule } from '@/infra/cache/redis'
 import { ITokenAdapter, TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
@@ -10,7 +11,7 @@ import { ILoginAdapter } from './adapter'
 import { LoginController } from './controller'
 
 @Module({
-  imports: [UserModule, TokenModule, CryptoLibModule],
+  imports: [UserModule, TokenModule, CryptoLibModule, RedisCacheModule],
   providers: [
     {
       provide: ILoginAdapter,

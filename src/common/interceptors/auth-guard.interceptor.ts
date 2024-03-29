@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { Request } from 'express'
 
 import { ITokenAdapter } from '@/libs/auth'
+import { extractTokenFromHeader } from '@/utils/request'
 
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
 
@@ -20,7 +20,7 @@ export class AuthGuardInterceptor implements CanActivate {
     ])
     if (isPublic) return true
     const request = context.switchToHttp().getRequest()
-    const token = this.extractTokenFromHeader(request)
+    const token = extractTokenFromHeader(request)
     if (!token) {
       throw new Error('Token is not present')
     }
@@ -31,10 +31,5 @@ export class AuthGuardInterceptor implements CanActivate {
       throw new Error('Unauthorized')
     }
     return true
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? []
-    return type === 'Bearer' ? token : undefined
   }
 }

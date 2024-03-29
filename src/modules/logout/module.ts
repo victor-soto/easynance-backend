@@ -4,13 +4,14 @@ import { LogoutUseCase } from '@/core/user/usecases/logout-user'
 import { ICacheAdapter } from '@/infra/cache/adapter'
 import { RedisCacheModule } from '@/infra/cache/redis'
 import { ISecretAdapter, SecretModule } from '@/infra/secrets'
+import { TokenModule } from '@/libs/auth'
 
 import { ILogoutAdapter } from './adapter'
 import { LogoutController } from './controller'
 
 @Module({
   controllers: [LogoutController],
-  imports: [SecretModule, RedisCacheModule],
+  imports: [SecretModule, RedisCacheModule, TokenModule],
   providers: [
     {
       provide: ILogoutAdapter,
