@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
 import { ModelCtor, Sequelize } from 'sequelize-typescript'
 
 import { IsLoggedMiddleware } from '@/common/middlewares'
@@ -48,6 +48,6 @@ import { UserRepository } from './repository'
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IsLoggedMiddleware).forRoutes(UserController)
+    consumer.apply(IsLoggedMiddleware).exclude({ path: 'users', method: RequestMethod.POST }).forRoutes(UserController)
   }
 }
