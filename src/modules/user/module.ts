@@ -6,6 +6,7 @@ import { UserEntity } from '@/core/user/entity/user'
 import { IUserRepository } from '@/core/user/repository'
 import { CreateUserUseCase } from '@/core/user/usecases/create-user'
 import { ListUserUseCase } from '@/core/user/usecases/list-user'
+import { UpdateUserUseCase } from '@/core/user/usecases/update-user'
 import { RedisCacheModule } from '@/infra/cache/redis'
 import { IDatabaseAdapter } from '@/infra/database/adapter'
 import { DatabaseModule } from '@/infra/database/postgres'
@@ -13,7 +14,7 @@ import { UserSchema } from '@/infra/database/postgres/schemas/user'
 import { TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
-import { ICreateUserAdapter, IListUserAdapter } from './adapter'
+import { ICreateUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
 import { UserController } from './controller'
 import { UserRepository } from './repository'
 
@@ -41,6 +42,13 @@ import { UserRepository } from './repository'
         return new ListUserUseCase(repository)
       },
       inject: [IUserRepository]
+    },
+    {
+      provide: IUpdateUserAdapter,
+      useFactory: (repository: IUserRepository, crypto: ICryptoAdapter) => {
+        return new UpdateUserUseCase(repository, crypto)
+      },
+      inject: [IUserRepository, ICryptoAdapter]
     }
   ],
   controllers: [UserController],

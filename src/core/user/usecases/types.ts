@@ -5,7 +5,7 @@ import { PaginationInput, PaginationOutput, PaginationSchema } from '@/utils/pag
 import { SearchSchema } from '@/utils/search'
 import { SortSchema } from '@/utils/sort'
 
-import { UserEntity } from '../entity/user'
+import { UserEntity, UserEntitySchema } from '../entity/user'
 
 export const CreateUserSchema = z.object({
   username: z.string(),
@@ -20,6 +20,10 @@ export const LoginSchema = z.object({
   password: z.string()
 })
 
+export const UpdateUserSchema = UserEntitySchema.pick({
+  id: true
+}).merge(UserEntitySchema.omit({ id: true }).partial())
+
 export const LogoutSchema = z.object({ token: z.string().trim().min(10) })
 
 export const ListUserSchema = z.intersection(PaginationSchema, SortSchema.merge(SearchSchema))
@@ -31,3 +35,5 @@ export type LoginOutput = { token: string }
 export type LogoutInput = z.infer<typeof LogoutSchema>
 export type ListUserInput = PaginationInput<UserEntity>
 export type ListUserOutput = PaginationOutput<UserEntity>
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>
+export type UpdateUserOutput = UserEntity

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Op, Transaction } from 'sequelize'
+import { Op, Transaction, WhereOptions } from 'sequelize'
 import { Model, ModelCtor } from 'sequelize-typescript'
 
 import { ConvertPaginateInputToSequelizeFilter } from '@/common/decorators/database/postgres/convert-paginate-input-to-sequelize-filter.decorator'
@@ -9,7 +9,7 @@ import { UserEntity } from '@/core/user/entity/user'
 import { IUserRepository } from '@/core/user/repository'
 import { ListUserInput, ListUserOutput } from '@/core/user/usecases/types'
 import { UserSchema } from '@/infra/database/postgres/schemas/user'
-import { CreatedModel } from '@/infra/repository/types'
+import { CreatedModel, UpdatedModel } from '@/infra/repository/types'
 import { DatabaseOptionsSchema, DatabaseOptionsType, SaveOptionsType } from '@/utils/sequelize'
 
 type UserModel = ModelCtor<UserSchema> & UserEntity
@@ -39,6 +39,13 @@ export class UserRepository implements IUserRepository {
     return model.toJSON()
   }
 
+  async findById(id: number, options?: DatabaseOptionsType): Promise<UserEntity> {
+    const { schema } = DatabaseOptionsSchema.parse(options)
+    const model = await this.repository.schema(schema).findOne({ where: { id } })
+    if (!model) return
+    return model.toJSON()
+  }
+
   async create(user: UserEntity, saveOptions: SaveOptionsType): Promise<CreatedModel> {
     const { schema, transaction } = DatabaseOptionsSchema.parse(saveOptions)
     const createdUser = await this.repository.schema(schema).create<Model<UserEntity>>(user, { transaction })
@@ -57,5 +64,32 @@ export class UserRepository implements IUserRepository {
     const { schema } = DatabaseOptionsSchema.parse(options)
     const list = await this.repository.schema(schema).findAndCountAll(input)
     return { items: list.rows.map((r) => new UserEntity(r)), limit: input.limit, page: input.page, total: list.count }
+  }
+
+  async existsOnUpdate(
+    equalFilter: Pick<UserEntity, 'username'>,
+    notEqualFilter: Pick<UserEntity, 'id'>
+  ): Promise<boolean> {
+    const user = await this.repository.findOne({ where: { ...equalFilter, ...notEqualFilter } })
+    return !!user
+  }
+
+  async updateOne<TQuery = Partial<UserEntity>, TUpdate = Partial<UserEntity>, TOpts = DatabaseOptionsType>(
+    filter: TQuery,
+    updated: TUpdate,
+    options?: TOpts
+  ): Promise<UpdatedModel> {
+    const { schema, transaction } = DatabaseOptionsSchema.parse(options)
+
+    const model = await this.repository.schema(schema).update(updated, {
+      where: filter as WhereOptions<UserEntity>,
+      transaction
+    })
+
+    return {
+      modifiedCount: model.length,
+      matchedCount: model.length,
+      upsertedCount: model.length
+    }
   }
 }
