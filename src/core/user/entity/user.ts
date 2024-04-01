@@ -8,7 +8,8 @@ export const UserEntitySchema = z.object({
   password: z.string(),
   email: z.string().email(),
   firstName: z.string(),
-  lastName: z.string()
+  lastName: z.string(),
+  active: z.boolean().default(true)
 })
 
 type User = z.infer<typeof UserEntitySchema>
@@ -19,6 +20,7 @@ export class UserEntity extends BaseEntity<UserEntity>(UserEntitySchema) {
   email: string
   firstName: string
   lastName: string
+  active: boolean
 
   constructor(entity: User) {
     super()

@@ -41,7 +41,7 @@ export class UserRepository implements IUserRepository {
 
   async findById(id: number, options?: DatabaseOptionsType): Promise<UserEntity> {
     const { schema } = DatabaseOptionsSchema.parse(options)
-    const model = await this.repository.schema(schema).findOne({ where: { id } })
+    const model = await this.repository.schema(schema).findOne({ where: { id, active: true } })
     if (!model) return
     return model.toJSON()
   }

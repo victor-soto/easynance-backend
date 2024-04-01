@@ -28,6 +28,10 @@ export const LogoutSchema = z.object({ token: z.string().trim().min(10) })
 
 export const ListUserSchema = z.intersection(PaginationSchema, SortSchema.merge(SearchSchema))
 
+export const DeleteUserSchema = UserEntitySchema.pick({
+  id: true
+})
+
 export type CreateUserInput = z.infer<typeof CreateUserSchema>
 export type CreateUserOutput = CreatedModel
 export type LoginInput = z.infer<typeof LoginSchema>
@@ -37,3 +41,5 @@ export type ListUserInput = PaginationInput<UserEntity>
 export type ListUserOutput = PaginationOutput<UserEntity>
 export type UpdateUserInput = z.infer<typeof UpdateUserSchema>
 export type UpdateUserOutput = UserEntity
+export type DeleteUserInput = z.infer<typeof DeleteUserSchema>
+export type DeleteUserOutput = UserEntity

@@ -5,6 +5,7 @@ import { IsLoggedMiddleware } from '@/common/middlewares'
 import { UserEntity } from '@/core/user/entity/user'
 import { IUserRepository } from '@/core/user/repository'
 import { CreateUserUseCase } from '@/core/user/usecases/create-user'
+import { DeleteUserUseCase } from '@/core/user/usecases/delete-user'
 import { ListUserUseCase } from '@/core/user/usecases/list-user'
 import { UpdateUserUseCase } from '@/core/user/usecases/update-user'
 import { RedisCacheModule } from '@/infra/cache/redis'
@@ -14,7 +15,7 @@ import { UserSchema } from '@/infra/database/postgres/schemas/user'
 import { TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
-import { ICreateUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
+import { ICreateUserAdapter, IDeleteUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
 import { UserController } from './controller'
 import { UserRepository } from './repository'
 
@@ -49,6 +50,13 @@ import { UserRepository } from './repository'
         return new UpdateUserUseCase(repository, crypto)
       },
       inject: [IUserRepository, ICryptoAdapter]
+    },
+    {
+      provide: IDeleteUserAdapter,
+      useFactory: (repository: IUserRepository) => {
+        return new DeleteUserUseCase(repository)
+      },
+      inject: [IUserRepository]
     }
   ],
   controllers: [UserController],

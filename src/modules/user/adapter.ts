@@ -1,6 +1,8 @@
 import {
   CreateUserInput,
   CreateUserOutput,
+  DeleteUserInput,
+  DeleteUserOutput,
   ListUserInput,
   ListUserOutput,
   UpdateUserInput,
@@ -17,4 +19,8 @@ export abstract class IListUserAdapter {
 
 export abstract class IUpdateUserAdapter {
   abstract execute(input: UpdateUserInput): Promise<UpdateUserOutput>
+}
+
+export abstract class IDeleteUserAdapter {
+  abstract execute(input: DeleteUserInput): Promise<DeleteUserOutput>
 }

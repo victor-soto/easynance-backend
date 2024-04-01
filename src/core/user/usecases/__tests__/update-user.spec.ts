@@ -23,7 +23,8 @@ describe('#UpdateUserUseCase', () => {
     email: faker.internet.email(),
     password: faker.internet.password(),
     firstName: faker.person.firstName(),
-    lastName: faker.person.lastName()
+    lastName: faker.person.lastName(),
+    active: true
   } as UserEntity
 
   beforeEach(async () => {

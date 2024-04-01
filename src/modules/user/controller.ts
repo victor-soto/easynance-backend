@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common'
+import { Request } from 'express'
 
 import { Public } from '@/common/decorators/public.decorator'
 import {
   CreateUserInput,
+  DeleteUserOutput,
   ListUserInput,
   ListUserOutput,
   UpdateUserInput,
@@ -12,14 +14,15 @@ import { CreatedModel } from '@/infra/repository/types'
 import { SearchHttpSchema } from '@/utils/search'
 import { SortHttpSchema } from '@/utils/sort'
 
-import { ICreateUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
+import { ICreateUserAdapter, IDeleteUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
 
 @Controller('users')
 export class UserController {
   constructor(
     private readonly createUser: ICreateUserAdapter,
     private readonly listUser: IListUserAdapter,
-    private readonly updateUser: IUpdateUserAdapter
+    private readonly updateUser: IUpdateUserAdapter,
+    private readonly deleteUser: IDeleteUserAdapter
   ) {}
 
   @Post()
@@ -42,5 +45,10 @@ export class UserController {
       page: +query.page
     }
     return this.listUser.execute(query)
+  }
+
+  @Delete('/:id')
+  async delete(@Req() { params }: Request): Promise<DeleteUserOutput> {
+    return this.deleteUser.execute({ id: +params.id })
   }
 }

@@ -19,4 +19,7 @@ export class UserSchema extends Model {
 
   @Column({ type: DataType.STRING })
   lastName: string
+
+  @Column({ type: DataType.BOOLEAN, defaultValue: true })
+  active: boolean
 }
