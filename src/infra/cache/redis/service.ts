@@ -18,7 +18,7 @@ export class RedisService implements ICacheAdapter<RedisClientType> {
   async connect(): Promise<RedisClientType> {
     try {
       await this.client.connect()
-      this.logger.info('🎯 redis connected!')
+      this.logger.log('🎯 redis connected!')
       return this.client
     } catch (error) {
       this.logger.error(error)

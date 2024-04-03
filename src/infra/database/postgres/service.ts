@@ -26,11 +26,11 @@ export class SequelizeService implements IDatabaseAdapter {
         dialect: dialect,
         benchmark: true,
         timezone: this.secret.POSTGRES_TZ,
-        logging: (msg, timing) => this.logger.info(`[sequelize], ${msg}, ${timing}ms`)
+        logging: (msg, timing) => this.logger.info({ message: `[sequelize], ${msg}, ${timing}ms` })
       })
       dbInstance.addModels([UserSchema])
       await dbInstance.sync()
-      this.logger.info(`🎯 ${dialect} connected successfully!`)
+      this.logger.log(`🎯 ${dialect} connected successfully!`)
       this.sequelize = dbInstance
       return this.sequelize
     } catch (error) {
