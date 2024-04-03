@@ -8,4 +8,5 @@ export abstract class ISecretAdapter {
   JWT_SECRET_KEY: string
   TOKEN_EXPIRATION: string
   REDIS_URL: string
+  LOG_LEVEL: string
 }

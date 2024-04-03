@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { SecretModule } from '@/infra/secrets'
+import { ISecretAdapter, SecretModule } from '@/infra/secrets'
 
 import { ILoggerAdapter } from './adapter'
 import { LoggerService } from './service'
@@ -10,9 +10,12 @@ import { LoggerService } from './service'
   providers: [
     {
       provide: ILoggerAdapter,
-      useFactory: () => {
-        return new LoggerService()
-      }
+      useFactory: async ({ LOG_LEVEL }: ISecretAdapter) => {
+        const logger = new LoggerService()
+        await logger.connect(LOG_LEVEL)
+        return logger
+      },
+      inject: [ISecretAdapter]
     }
   ],
   exports: [ILoggerAdapter]

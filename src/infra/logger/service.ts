@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Scope } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
-import winston, { Logger, transports } from 'winston'
+import * as winston from 'winston'
 
 import { BaseException } from '@/utils/exception'
 
@@ -11,13 +11,13 @@ import { ErrorType, MessageType } from './types'
 export class LoggerService implements ILoggerAdapter {
   private app: string
 
-  logger: Logger
+  logger: winston.Logger
 
   async connect(logLevel: string): Promise<void> {
     this.logger = winston.createLogger({
       level: [logLevel, 'silly'].find(Boolean),
       format: winston.format.combine(winston.format.json(), winston.format.colorize()),
-      transports: [new transports.Console()]
+      transports: [new winston.transports.Console()]
     })
   }
 
