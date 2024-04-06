@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 
 import { ILoggerAdapter } from '@/infra/logger'
 import { BaseException, ErrorModel } from '@/utils/exception'
+import errorStatus from '@/utils/static/http-status.json'
 
 @Catch()
 export class ApiExceptionFilter implements ExceptionFilter {
@@ -22,7 +23,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
         code: status,
         traceId: exception.traceId,
         context: exception.context,
-        message: message,
+        message: [errorStatus[String(status)], message].find(Boolean),
         path: request.url
       }
     } as ErrorModel)

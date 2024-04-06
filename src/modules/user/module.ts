@@ -12,6 +12,7 @@ import { RedisCacheModule } from '@/infra/cache/redis'
 import { IDatabaseAdapter } from '@/infra/database/adapter'
 import { DatabaseModule } from '@/infra/database/postgres'
 import { UserSchema } from '@/infra/database/postgres/schemas/user'
+import { LoggerModule } from '@/infra/logger'
 import { TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
@@ -20,7 +21,7 @@ import { UserController } from './controller'
 import { UserRepository } from './repository'
 
 @Module({
-  imports: [DatabaseModule, CryptoLibModule, RedisCacheModule, TokenModule],
+  imports: [DatabaseModule, CryptoLibModule, RedisCacheModule, TokenModule, LoggerModule],
   providers: [
     {
       provide: IUserRepository,

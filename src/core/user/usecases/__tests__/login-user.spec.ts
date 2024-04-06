@@ -5,6 +5,7 @@ import { ZodIssue } from 'zod'
 import { ITokenAdapter, TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 import { ILoginAdapter } from '@/modules/login/adapter'
+import { ApiNotFoundException } from '@/utils/exception'
 import { expectZodError } from '@/utils/tests'
 
 import { UserEntity } from '../../entity/user'
@@ -78,7 +79,7 @@ describe('#LoginUseCase', () => {
 
   it('when user not found, should expect an error', async () => {
     repositoryMock.findLogin.mockReturnValueOnce(null)
-    await expect(useCase.execute({ username: 'user', password: 'password' })).rejects.toThrow('Login failed')
+    await expect(useCase.execute({ username: 'user', password: 'password' })).rejects.toThrow(ApiNotFoundException)
   })
 
   it('when user found, should expect a token', async () => {

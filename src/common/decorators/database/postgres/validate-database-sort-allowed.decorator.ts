@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { ApiBadRequestException } from '@/utils/exception'
+
 import { ListSchema } from '../../types'
 
 type AllowedSort<T> = keyof T
@@ -16,7 +18,7 @@ export function ValidateDatabaseSortAllowed<T>(...allowedSortList: AllowedSort<T
 
       Object.keys(input.sort || {}).forEach((key) => {
         const allowed = sortList.includes(key)
-        if (!allowed) throw new Error(`allowed sorts are: ${sortList.join(', ')}`)
+        if (!allowed) throw new ApiBadRequestException(`allowed sorts are: ${sortList.join(', ')}`)
       })
 
       for (const allowedFilter of sortList) {

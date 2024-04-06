@@ -53,7 +53,7 @@ export class LoggerService implements ILoggerAdapter {
 
     const type = {
       Error: BaseException.name
-    }
+    }[error?.name]
     const messageFind = [message, response?.['message'], error.message].find(Boolean)
     response = typeof response === 'object' ? response : { response }
     this.logger.error(messageFind, {

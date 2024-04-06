@@ -1,5 +1,6 @@
 import { ValidateSchema } from '@/common/decorators/validate-schema.decorator'
 import { ICryptoAdapter } from '@/libs/crypto'
+import { ApiConflictException } from '@/utils/exception'
 
 import { UserEntity } from '../entity/user'
 import { IUserRepository } from '../repository'
@@ -18,7 +19,7 @@ export class CreateUserUseCase {
     const userExists = await this.userRepository.findByUsernameOrEmail(entity.username, entity.email)
 
     if (userExists) {
-      throw new Error('User already exists')
+      throw new ApiConflictException('User already exists')
     }
 
     const transaction = await this.userRepository.startTransaction()

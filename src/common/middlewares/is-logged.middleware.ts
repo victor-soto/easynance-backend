@@ -3,12 +3,15 @@ import { NextFunction, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 
 import { ICacheAdapter } from '@/infra/cache/adapter'
+import { ILoggerAdapter } from '@/infra/logger'
 import { ITokenAdapter } from '@/libs/auth'
+import { ApiUnauthorizedException } from '@/utils/exception'
 import { extractTokenFromHeader } from '@/utils/request'
 
 @Injectable()
 export class IsLoggedMiddleware implements NestMiddleware {
   constructor(
+    private readonly logger: ILoggerAdapter,
     private readonly redisService: ICacheAdapter,
     private readonly tokenService: ITokenAdapter
   ) {}
@@ -21,12 +24,13 @@ export class IsLoggedMiddleware implements NestMiddleware {
     if (!token) {
       res.status(HttpStatus.UNAUTHORIZED)
       req['id'] = req.headers.traceId
-      throw new Error('no token provided')
+      this.logger.log(`[${req.method}] ${req.url} - Unauthorized Response`)
+      throw new ApiUnauthorizedException('no token provided')
     }
     const expiredToken = await this.redisService.get(token)
     if (expiredToken) {
       req['id'] = req.headers.traceId
-      throw new Error('you have been logged out')
+      next(new ApiUnauthorizedException('you have been logged out'))
     }
     try {
       const userDecoded = this.tokenService.verify(token)

@@ -1,6 +1,8 @@
 import { Op } from 'sequelize'
 import { z } from 'zod'
 
+import { ApiBadRequestException } from '@/utils/exception'
+
 import { AllowedFilter, ListSchema, SearchTypeEnum } from '../../types'
 
 const SequelizeSort = {
@@ -23,7 +25,7 @@ export function ConvertPaginateInputToSequelizeFilter<T extends object>(allowedF
 
       Object.keys(input.search || {}).forEach((key) => {
         const allowed = filterNameList.includes(key)
-        if (!allowed) throw new Error(`allowed filters are: ${filterNameList.join(', ')}`)
+        if (!allowed) throw new ApiBadRequestException(`allowed filters are: ${filterNameList.join(', ')}`)
       })
 
       for (const allowedFilter of allowedFilterList) {

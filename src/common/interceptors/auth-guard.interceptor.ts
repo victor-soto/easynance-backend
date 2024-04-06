@@ -22,13 +22,13 @@ export class AuthGuardInterceptor implements CanActivate {
     const request = context.switchToHttp().getRequest()
     const token = extractTokenFromHeader(request)
     if (!token) {
-      throw new Error('Token is not present')
+      return false
     }
     try {
       const payload = this.tokenService.verify(token)
       request['user'] = payload
     } catch {
-      throw new Error('Unauthorized')
+      return false
     }
     return true
   }

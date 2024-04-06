@@ -1,6 +1,7 @@
 import { createClient, RedisClientOptions, RedisClientType, SetOptions } from 'redis'
 
 import { ILoggerAdapter } from '@/infra/logger'
+import { ApiInternalServerException } from '@/utils/exception'
 
 import { ICacheAdapter } from '../adapter'
 import { CacheKeyArgument, CacheValueArgument } from '../types'
@@ -22,7 +23,7 @@ export class RedisService implements ICacheAdapter<RedisClientType> {
       return this.client
     } catch (error) {
       this.logger.error(error)
-      throw error
+      throw new ApiInternalServerException(error.message, { context: `${RedisService.name}/connect` })
     }
   }
 
