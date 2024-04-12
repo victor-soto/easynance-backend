@@ -2,6 +2,8 @@ import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescr
 
 import { PermissionSchema } from './permission'
 import { RolePermissionSchema } from './role_permission'
+import { UserSchema } from './user'
+import { UserRoleSchema } from './user_role'
 
 @Table({ timestamps: true, tableName: 'roles', underscored: true })
 export class RoleSchema extends Model {
@@ -19,4 +21,7 @@ export class RoleSchema extends Model {
 
   @BelongsToMany(() => PermissionSchema, () => RolePermissionSchema)
   permissions: PermissionSchema[]
+
+  @BelongsToMany(() => UserSchema, () => UserRoleSchema)
+  users: UserSchema[]
 }

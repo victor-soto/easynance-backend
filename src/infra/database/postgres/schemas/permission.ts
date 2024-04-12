@@ -9,6 +9,12 @@ export class PermissionSchema extends Model {
   id: number
 
   @Column({ type: DataType.STRING, allowNull: false })
+  name: string
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  description?: string
+
+  @Column({ type: DataType.STRING, allowNull: false })
   path: string
 
   @Column({ type: DataType.INTEGER, allowNull: false })
