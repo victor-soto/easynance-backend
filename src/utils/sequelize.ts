@@ -1,7 +1,7 @@
 import { SaveOptions } from 'sequelize'
 import { z } from 'zod'
 
-const DEFAULT_SCHEMA = 'public'
+export const DEFAULT_SCHEMA = 'public'
 
 export const DatabaseOptionsSchema = z
   .object({

@@ -5,6 +5,11 @@ import { RolePermissionSchema } from './role_permission'
 import { UserSchema } from './user'
 import { UserRoleSchema } from './user_role'
 
+export enum ROLE {
+  ADMIN = 1,
+  USER
+}
+
 @Table({ timestamps: true, tableName: 'roles', underscored: true })
 export class RoleSchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
