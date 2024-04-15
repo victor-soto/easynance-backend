@@ -10,12 +10,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'users', key: 'id' }
       },
-      roleId: {
+      role_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'roles', key: 'id' }

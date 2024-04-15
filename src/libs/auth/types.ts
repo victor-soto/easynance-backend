@@ -5,7 +5,7 @@ import { UserEntitySchema } from '@/core/user/entity/user'
 const SignInputSchema = UserEntitySchema.pick({
   email: true,
   username: true
-})
+}).extend({ roles: z.array(z.number()) })
 
 export const JwtSchema = z.object({
   email: z.string(),

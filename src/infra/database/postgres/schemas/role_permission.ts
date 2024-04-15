@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 
 import { PermissionSchema } from './permission'
 import { RoleSchema } from './role'
@@ -8,9 +8,15 @@ export class RolePermissionSchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   id: number
 
-  @ForeignKey(() => RoleSchema)
+  @BelongsTo(() => RoleSchema, 'roleId')
   role: RoleSchema
 
-  @ForeignKey(() => PermissionSchema)
+  @ForeignKey(() => RoleSchema)
+  roleId: number
+
+  @BelongsTo(() => PermissionSchema, 'permissionId')
   permission: PermissionSchema
+
+  @ForeignKey(() => PermissionSchema)
+  permissionId: number
 }

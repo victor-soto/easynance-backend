@@ -19,6 +19,10 @@ export class LoginUseCase {
     if (!login) throw new ApiNotFoundException()
     const passwordMatch = await this.crypto.compareHash(input.password, login.password)
     if (!passwordMatch) throw new ApiUnauthorizedException('Login failed')
-    return this.tokenService.sign({ email: login.email, username: login.username })
+    return this.tokenService.sign({
+      email: login.email,
+      username: login.username,
+      roles: login.roles.map((role) => role.id)
+    })
   }
 }

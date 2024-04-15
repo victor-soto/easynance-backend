@@ -8,9 +8,11 @@ export class UserRoleSchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   id: number
 
+  @Column({ type: DataType.INTEGER, allowNull: false })
   @ForeignKey(() => UserSchema)
-  user: UserSchema
+  userId: number
 
+  @Column({ type: DataType.INTEGER, allowNull: false })
   @ForeignKey(() => RoleSchema)
-  role: RoleSchema
+  roleId: number
 }

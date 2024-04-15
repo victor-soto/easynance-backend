@@ -33,6 +33,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.sequelize.query('DELETE FROM "roles" WHERE id IN (1, 2));')
+    await queryInterface.sequelize.query('DELETE FROM "roles" WHERE id IN (1, 2);')
   }
 }

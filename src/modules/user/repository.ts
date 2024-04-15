@@ -8,6 +8,7 @@ import { SearchTypeEnum } from '@/common/decorators/types'
 import { UserEntity } from '@/core/user/entity/user'
 import { IUserRepository } from '@/core/user/repository'
 import { ListUserInput, ListUserOutput } from '@/core/user/usecases/types'
+import { RoleSchema } from '@/infra/database/postgres/schemas/role'
 import { UserSchema } from '@/infra/database/postgres/schemas/user'
 import { CreatedModel, UpdatedModel } from '@/infra/repository/types'
 import { DatabaseOptionsSchema, DatabaseOptionsType, SaveOptionsType } from '@/utils/sequelize'
@@ -32,9 +33,10 @@ export class UserRepository implements IUserRepository {
 
   async findLogin(usernameOrEmail: string, options?: DatabaseOptionsType): Promise<UserEntity> {
     const { schema } = DatabaseOptionsSchema.parse(options)
-    const model = await this.repository
-      .schema(schema)
-      .findOne({ where: { [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }] } })
+    const model = await this.repository.schema(schema).findOne({
+      where: { [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }] },
+      include: [{ model: RoleSchema, attributes: ['id'], through: { attributes: [] } }]
+    })
     if (!model) return
     return model.toJSON()
   }
