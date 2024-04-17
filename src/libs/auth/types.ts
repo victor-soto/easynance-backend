@@ -11,7 +11,8 @@ export const JwtSchema = z.object({
   email: z.string(),
   username: z.string(),
   iat: z.number(),
-  exp: z.number()
+  exp: z.number(),
+  roles: z.array(z.number())
 })
 
 export type SignOutput = {

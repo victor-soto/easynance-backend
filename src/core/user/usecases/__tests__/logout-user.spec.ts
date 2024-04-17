@@ -4,7 +4,6 @@ import { ZodIssue } from 'zod'
 
 import { ICacheAdapter } from '@/infra/cache/adapter'
 import { ISecretAdapter, SecretModule } from '@/infra/secrets'
-import { TokenModule } from '@/libs/auth'
 import { ILogoutAdapter } from '@/modules/logout/adapter'
 import { expectZodError } from '@/utils/tests'
 
@@ -18,7 +17,7 @@ describe('#LogoutUseCase', () => {
 
   beforeEach(async () => {
     const app = await Test.createTestingModule({
-      imports: [TokenModule, SecretModule],
+      imports: [SecretModule],
       providers: [
         {
           provide: ICacheAdapter,

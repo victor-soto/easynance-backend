@@ -11,7 +11,7 @@ export const UserEntitySchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   active: z.boolean().default(true),
-  roles: z.array(RoleEntitySchema)
+  roles: z.array(RoleEntitySchema).optional()
 })
 
 type User = z.infer<typeof UserEntitySchema>

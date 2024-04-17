@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { Request } from 'express'
 
 import { ITokenAdapter } from '@/libs/auth'
 import { extractTokenFromHeader } from '@/utils/request'
@@ -13,23 +14,22 @@ export class AuthGuardInterceptor implements CanActivate {
     private readonly tokenService: ITokenAdapter
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass()
     ])
     if (isPublic) return true
-    const request = context.switchToHttp().getRequest()
+    const request = context.switchToHttp().getRequest<Request>()
     const token = extractTokenFromHeader(request)
     if (!token) {
       return false
     }
     try {
       const payload = this.tokenService.verify(token)
-      request['user'] = payload
+      return await this.tokenService.authorizeRequest(request.url, request.method, payload)
     } catch {
       return false
     }
-    return true
   }
 }

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { Test } from '@nestjs/testing'
 import { ZodIssue } from 'zod'
 
-import { ITokenAdapter, TokenModule } from '@/libs/auth'
+import { ITokenAdapter } from '@/libs/auth/adapter'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 import { ILoginAdapter } from '@/modules/login/adapter'
 import { ApiNotFoundException } from '@/utils/exception'
@@ -19,7 +19,8 @@ describe('#LoginUseCase', () => {
     password: faker.internet.password(),
     email: faker.internet.email(),
     firstName: faker.person.firstName(),
-    lastName: faker.person.lastName()
+    lastName: faker.person.lastName(),
+    roles: []
   }
   let useCase: ILoginAdapter
   const repositoryMock = {
@@ -34,7 +35,7 @@ describe('#LoginUseCase', () => {
 
   beforeEach(async () => {
     const app = await Test.createTestingModule({
-      imports: [CryptoLibModule, TokenModule],
+      imports: [CryptoLibModule],
       providers: [
         {
           provide: IUserRepository,

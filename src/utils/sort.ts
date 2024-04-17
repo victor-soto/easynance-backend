@@ -11,7 +11,6 @@ export const SortHttpSchema = z
   .refine(
     (sort) => {
       if (!sort) return true
-      console.log([!sort.startsWith(':'), !(sort.indexOf(':') < 0)].every(Boolean))
       return [!sort.startsWith(':'), !(sort.indexOf(':') < 0)].every(Boolean)
     },
     {

@@ -6,10 +6,11 @@ import { InfraModule } from '@/infra/module'
 import { TokenModule } from '@/libs/auth'
 import { LoginModule } from '@/modules/login/module'
 import { LogoutModule } from '@/modules/logout/module'
+import { PermissionModule } from '@/modules/permission/module'
 import { UserModule } from '@/modules/user/module'
 
 @Module({
-  imports: [InfraModule, UserModule, LoginModule, LogoutModule, TokenModule],
+  imports: [InfraModule, UserModule, LoginModule, LogoutModule, TokenModule, PermissionModule],
   providers: [
     {
       provide: APP_GUARD,

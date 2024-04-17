@@ -61,7 +61,7 @@ import { UserRepository } from './repository'
     }
   ],
   controllers: [UserController],
-  exports: [IUserRepository, ICreateUserAdapter, IListUserAdapter]
+  exports: [IUserRepository]
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
