@@ -32,6 +32,16 @@
 $ npm install
 ```
 
+## Running migrations
+```bash
+$ npm run migration:run
+```
+
+## Running seeders (for locally development)
+```bash
+$ npm run seeders:run
+```
+
 ## Running the app
 
 ```bash

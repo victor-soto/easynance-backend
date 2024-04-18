@@ -14,6 +14,6 @@ async function bootstrap() {
   app.useGlobalFilters(new ApiExceptionFilter(loggerService))
   app.useGlobalInterceptors(new ExceptionInterceptor())
   app.setGlobalPrefix(URL_PREFIX)
-  await app.listen(3000)
+  await app.listen(process.env.PORT || 3000)
 }
 bootstrap()
