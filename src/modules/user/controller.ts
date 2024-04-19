@@ -16,7 +16,7 @@ import { SortHttpSchema } from '@/utils/sort'
 
 import { ICreateUserAdapter, IDeleteUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
 
-@Controller('users')
+@Controller({ path: 'users', version: '1' })
 export class UserController {
   constructor(
     private readonly createUser: ICreateUserAdapter,

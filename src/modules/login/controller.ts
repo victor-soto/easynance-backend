@@ -5,7 +5,7 @@ import { LoginInput } from '@/core/user/usecases/types'
 
 import { ILoginAdapter } from './adapter'
 
-@Controller()
+@Controller({ version: '1' })
 export class LoginController {
   constructor(private readonly useCase: ILoginAdapter) {}
 

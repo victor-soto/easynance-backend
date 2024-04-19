@@ -5,7 +5,7 @@ import { LogoutInput } from '@/core/user/usecases/types'
 
 import { ILogoutAdapter } from './adapter'
 
-@Controller()
+@Controller({ version: '1' })
 export class LogoutController {
   constructor(private logoutUseCase: ILogoutAdapter) {}
 
