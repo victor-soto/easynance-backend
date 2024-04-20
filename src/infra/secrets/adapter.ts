@@ -1,4 +1,5 @@
 export abstract class ISecretAdapter {
+  HOST: string
   POSTGRES_HOST: string
   POSTGRES_PORT: number
   POSTGRES_DB: string
@@ -9,4 +10,6 @@ export abstract class ISecretAdapter {
   TOKEN_EXPIRATION: string
   REDIS_URL: string
   LOG_LEVEL: string
+  PORT: number
+  ENV: string
 }

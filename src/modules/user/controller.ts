@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common'
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Request } from 'express'
 
 import { Public } from '@/common/decorators/public.decorator'
@@ -15,8 +16,10 @@ import { SearchHttpSchema } from '@/utils/search'
 import { SortHttpSchema } from '@/utils/sort'
 
 import { ICreateUserAdapter, IDeleteUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
+import { SwaggerRequest, SwaggerResponse } from './swagger'
 
 @Controller({ path: 'users', version: '1' })
+@ApiTags('users')
 export class UserController {
   constructor(
     private readonly createUser: ICreateUserAdapter,
@@ -27,6 +30,8 @@ export class UserController {
 
   @Post()
   @Public()
+  @ApiResponse(SwaggerResponse.create[200])
+  @ApiBody(SwaggerRequest.createBody)
   async create(@Body() body: CreateUserInput): Promise<CreatedModel> {
     return this.createUser.execute(body as CreateUserInput)
   }

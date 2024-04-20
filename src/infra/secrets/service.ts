@@ -7,6 +7,7 @@ import { ISecretAdapter } from './adapter'
 export class SecretService implements ISecretAdapter {
   constructor(private readonly config: ConfigService) {}
 
+  HOST = this.config.get('HOST')
   POSTGRES_HOST = this.config.get('POSTGRES_HOST')
   POSTGRES_PORT = this.config.get<number>('POSTGRES_PORT')
   POSTGRES_DB = this.config.get('POSTGRES_DB')
@@ -17,4 +18,6 @@ export class SecretService implements ISecretAdapter {
   TOKEN_EXPIRATION = this.config.get('TOKEN_EXPIRATION')
   REDIS_URL = this.config.get('REDIS_URL')
   LOG_LEVEL = this.config.get('LOG_LEVEL')
+  PORT = this.config.get<number>('PORT')
+  ENV = this.config.get('ENV')
 }
