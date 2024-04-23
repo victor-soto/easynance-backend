@@ -11,3 +11,8 @@ export const expectZodError = async (callback: Function, expected: Function) => 
     }
   }
 }
+
+export const mockedTransaction = jest.fn().mockResolvedValue({
+  commit: jest.fn(),
+  rollback: jest.fn()
+})

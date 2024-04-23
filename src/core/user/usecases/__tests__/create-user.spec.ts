@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing'
 
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 import { ICreateUserAdapter } from '@/modules/user/adapter'
+import { mockedTransaction } from '@/utils/tests'
 
 import { IUserRepository } from '../../repository'
 import { CreateUserUseCase } from '../create-user'
@@ -20,10 +21,7 @@ describe('#CreateUserUseCase', () => {
   const userRepositoryMock = {
     findByUsernameOrEmail: jest.fn(),
     create: jest.fn(),
-    startTransaction: jest.fn().mockResolvedValue({
-      commit: jest.fn(),
-      rollback: jest.fn()
-    })
+    startTransaction: mockedTransaction
   }
 
   beforeEach(async () => {

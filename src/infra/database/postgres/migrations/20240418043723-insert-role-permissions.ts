@@ -11,15 +11,17 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     return queryInterface.sequelize.transaction((transaction) => {
-      return queryInterface.sequelize.query(
-        `INSERT INTO role_permissions (role_id, permission_id, created_at, updated_at) VALUES
+      return Promise.all([
+        queryInterface.sequelize.query(
+          `INSERT INTO role_permissions (role_id, permission_id, created_at, updated_at) VALUES
         (1, 1, '${new Date().toISOString()}', '${new Date().toISOString()}'),
         (1, 2, '${new Date().toISOString()}', '${new Date().toISOString()}'),
         (1, 3, '${new Date().toISOString()}', '${new Date().toISOString()}'),
         (1, 4, '${new Date().toISOString()}', '${new Date().toISOString()}');
         `,
-        transaction
-      )
+          transaction
+        )
+      ])
     })
   },
 
@@ -32,7 +34,9 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
     return queryInterface.sequelize.transaction((transaction) => {
-      return queryInterface.sequelize.query(`DELETE FROM role_permissions`, transaction)
+      return Promise.all([
+        queryInterface.sequelize.query(`DELETE FROM role_permissions WHERE permission_id IN (1, 2, 3, 4)`, transaction)
+      ])
     })
   }
 }

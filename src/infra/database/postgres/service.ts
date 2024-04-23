@@ -4,6 +4,7 @@ import { ILoggerAdapter } from '@/infra/logger/adapter'
 import { ISecretAdapter } from '@/infra/secrets/adapter'
 
 import { IDatabaseAdapter } from '../adapter'
+import { CategorySchema } from './schemas/category'
 import { PermissionSchema } from './schemas/permission'
 import { RoleSchema } from './schemas/role'
 import { RolePermissionSchema } from './schemas/role_permission'
@@ -32,7 +33,14 @@ export class SequelizeService implements IDatabaseAdapter {
         timezone: this.secret.POSTGRES_TZ,
         logging: (msg, timing) => this.logger.log(`[sequelize], ${msg}, ${timing}ms`)
       })
-      dbInstance.addModels([UserSchema, RoleSchema, PermissionSchema, RolePermissionSchema, UserRoleSchema])
+      dbInstance.addModels([
+        UserSchema,
+        RoleSchema,
+        PermissionSchema,
+        RolePermissionSchema,
+        UserRoleSchema,
+        CategorySchema
+      ])
       this.logger.log(`🎯 ${dialect} connected successfully!`)
       this.sequelize = dbInstance
       return this.sequelize
