@@ -1,4 +1,4 @@
-import { ApiResponseOptions } from '@nestjs/swagger'
+import { ApiQueryOptions, ApiResponseOptions } from '@nestjs/swagger'
 
 import httpStatus from '@/utils/static/http-status.json'
 
@@ -54,6 +54,33 @@ export const Swagger = {
       schema: {
         example: json
       }
+    }
+  },
+  defaultResponseError({ status, route, message, description }: SwaggerError): ApiResponseOptions {
+    return {
+      schema: {
+        example: {
+          error: {
+            code: status,
+            traceId: '<traceId>',
+            context: 'context',
+            message: [httpStatus[String(status)], message].find(Boolean),
+            path: route
+          }
+        } as ErrorModel
+      },
+      description,
+      status
+    }
+  },
+  defaultApiQueryOptions({ example, name, required, description }: ApiQueryOptions): ApiQueryOptions {
+    return {
+      schema: { example },
+      required,
+      name,
+      description,
+      explode: true,
+      type: 'string'
     }
   }
 }

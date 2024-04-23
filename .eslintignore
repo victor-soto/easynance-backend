@@ -1,0 +1,4 @@
+src/infra/database/postgres/migrations
+src/infra/database/mongo/migrations
+commitlint.config.js
+*.md
