@@ -25,6 +25,10 @@ export class CategoryController {
   }
 
   @Put()
+  @ApiResponse(SwaggerResponse.update[HttpStatus.OK])
+  @ApiResponse(SwaggerResponse.update[HttpStatus.NOT_FOUND])
+  @ApiResponse(SwaggerResponse.update[HttpStatus.CONFLICT])
+  @ApiBody(SwaggerRequest.updateBody)
   async update(@Body() input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
     return this.updateCategory.execute(input)
   }
