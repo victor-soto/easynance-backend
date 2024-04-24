@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Op, Transaction, WhereOptions } from 'sequelize'
+import { Op, Sequelize, Transaction, WhereOptions } from 'sequelize'
 import { Model, ModelCtor } from 'sequelize-typescript'
 
 import { ConvertPaginateInputToSequelizeFilter } from '@/common/decorators/database/postgres/convert-paginate-input-to-sequelize-filter.decorator'
@@ -72,7 +72,15 @@ export class UserRepository implements IUserRepository {
     equalFilter: Pick<UserEntity, 'username'>,
     notEqualFilter: Pick<UserEntity, 'id'>
   ): Promise<boolean> {
-    const user = await this.repository.findOne({ where: { ...equalFilter, ...notEqualFilter } })
+    const user = await this.repository.findOne({
+      where: {
+        [Op.and]: Sequelize.where(
+          Sequelize.fn('lower', Sequelize.col('username')),
+          Sequelize.fn('lower', equalFilter.username)
+        ),
+        [Op.not]: { ...notEqualFilter }
+      }
+    })
     return !!user
   }
 

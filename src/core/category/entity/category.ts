@@ -5,8 +5,9 @@ import { BaseEntity } from '@/utils/entity'
 export const CategoryEntitySchema = z.object({
   id: z.number().optional(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullish(),
   icon: z.string(),
+  iconAltText: z.string().nullish(),
   active: z.boolean().default(true)
 })
 
