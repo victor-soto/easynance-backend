@@ -1,4 +1,9 @@
-import { CreateCategoryInput, UpdateCategoryOutput } from '@/core/category/usecases/types'
+import {
+  CreateCategoryInput,
+  DeleteCategoryInput,
+  DeleteCategoryOutput,
+  UpdateCategoryOutput
+} from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository/types'
 
 export abstract class ICreateCategoryAdapter {
@@ -7,4 +12,8 @@ export abstract class ICreateCategoryAdapter {
 
 export abstract class IUpdateCategoryAdapter {
   abstract execute(input: CreateCategoryInput): Promise<UpdateCategoryOutput>
+}
+
+export abstract class IDeleteCategoryAdapter {
+  abstract execute(input: DeleteCategoryInput): Promise<DeleteCategoryOutput>
 }

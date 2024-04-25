@@ -14,6 +14,12 @@ export const UpdateCategorySchema = CategoryEntitySchema.pick({
   id: true
 }).merge(CategoryEntitySchema.omit({ id: true }).partial())
 
+export const DeleteCategorySchema = CategoryEntitySchema.pick({
+  id: true
+})
+
 export type CreateCategoryInput = z.infer<typeof CreateCategorySchema>
 export type UpdateCategoryOutput = CategoryEntity
 export type UpdateCategoryInput = z.infer<typeof UpdateCategorySchema>
+export type DeleteCategoryOutput = CategoryEntity
+export type DeleteCategoryInput = z.infer<typeof DeleteCategorySchema>

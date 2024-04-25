@@ -8,11 +8,11 @@ module.exports = {
       `
         INSERT INTO "permissions" (id, "name", description, "path", "method", active, created_at, updated_at)
         OVERRIDING SYSTEM VALUE
-        VALUES(6, 'Update category', 'Update categories.', '^/api/v1/categories$', 'PUT', true, '${new Date().toISOString()}', '${new Date().toISOString()}');
-        SELECT setval('permissions_id_seq', 6);
+        VALUES(7, 'Delete category', 'Delete categories.', '^/api/v1/categories/[0-9]+$', 'DELETE', true, '${new Date().toISOString()}', '${new Date().toISOString()}');
+        SELECT setval('permissions_id_seq', 7);
         INSERT INTO role_permissions (role_id, permission_id, created_at, updated_at) VALUES
-        (1, 6, '${new Date().toISOString()}', '${new Date().toISOString()}'),
-        (2, 6, '${new Date().toISOString()}', '${new Date().toISOString()}');
+        (1, 7, '${new Date().toISOString()}', '${new Date().toISOString()}'),
+        (2, 7, '${new Date().toISOString()}', '${new Date().toISOString()}');
         `
     )
   },
@@ -23,12 +23,12 @@ module.exports = {
       return Promise.all([
         queryInterface.sequelize.query(
           `
-        DELETE FROM role_permissions WHERE permission_id IN (6);
-        DELETE FROM "permissions" WHERE id IN (6);
+        DELETE FROM role_permissions WHERE permission_id IN (7);
+        DELETE FROM "permissions" WHERE id IN (7);
         `,
           transaction
         ),
-        queryInterface.sequelize.query('ALTER SEQUENCE permissions_id_seq RESTART WITH 6;', transaction)
+        queryInterface.sequelize.query('ALTER SEQUENCE permissions_id_seq RESTART WITH 7;', transaction)
       ])
     })
   }

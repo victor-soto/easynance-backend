@@ -1,10 +1,16 @@
-import { Body, Controller, HttpStatus, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, HttpStatus, Post, Put, Req } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { Request } from 'express'
 
-import { CreateCategoryInput, UpdateCategoryInput, UpdateCategoryOutput } from '@/core/category/usecases/types'
+import {
+  CreateCategoryInput,
+  DeleteCategoryOutput,
+  UpdateCategoryInput,
+  UpdateCategoryOutput
+} from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository/types'
 
-import { ICreateCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
+import { ICreateCategoryAdapter, IDeleteCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
 import { SwaggerRequest, SwaggerResponse } from './swagger'
 
 @Controller({ path: 'categories', version: '1' })
@@ -13,7 +19,8 @@ import { SwaggerRequest, SwaggerResponse } from './swagger'
 export class CategoryController {
   constructor(
     private readonly createCategory: ICreateCategoryAdapter,
-    private readonly updateCategory: IUpdateCategoryAdapter
+    private readonly updateCategory: IUpdateCategoryAdapter,
+    private readonly deleteCategory: IDeleteCategoryAdapter
   ) {}
 
   @Post()
@@ -31,5 +38,10 @@ export class CategoryController {
   @ApiBody(SwaggerRequest.updateBody)
   async update(@Body() input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
     return this.updateCategory.execute(input)
+  }
+
+  @Delete('/:id')
+  async delete(@Req() { params }: Request): Promise<DeleteCategoryOutput> {
+    return this.deleteCategory.execute({ id: +params.id })
   }
 }
