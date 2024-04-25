@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, HttpStatus, Post, Put, Req } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Request } from 'express'
 
 import {
@@ -41,6 +41,9 @@ export class CategoryController {
   }
 
   @Delete('/:id')
+  @ApiResponse(SwaggerResponse.delete[HttpStatus.OK])
+  @ApiResponse(SwaggerResponse.delete[HttpStatus.NOT_FOUND])
+  @ApiParam({ name: 'id', required: true })
   async delete(@Req() { params }: Request): Promise<DeleteCategoryOutput> {
     return this.deleteCategory.execute({ id: +params.id })
   }

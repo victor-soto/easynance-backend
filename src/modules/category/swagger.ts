@@ -36,6 +36,19 @@ export const SwaggerResponse = {
       message: '/api/v1/categories',
       description: "Category's name exists"
     })
+  },
+  delete: {
+    [HttpStatus.OK]: Swagger.defaultResponseJSON({
+      status: HttpStatus.OK,
+      json: CategoryResponse.delete,
+      description: 'Category deleted'
+    }),
+    [HttpStatus.NOT_FOUND]: Swagger.defaultResponseError({
+      status: HttpStatus.NOT_FOUND,
+      route: 'route',
+      message: '/api/v1/categories/1',
+      description: 'Category not found'
+    })
   }
 }
 
