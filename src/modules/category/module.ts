@@ -6,6 +6,7 @@ import { CategoryEntity } from '@/core/category/entity/category'
 import { ICategoryRepository } from '@/core/category/repository'
 import { CreateCategoryUseCase } from '@/core/category/usecases/create-category'
 import { DeleteCategoryUseCase } from '@/core/category/usecases/delete-category'
+import { ListCategoryUseCase } from '@/core/category/usecases/list-category'
 import { UpdateCategoryUseCase } from '@/core/category/usecases/update-category'
 import { RedisCacheModule } from '@/infra/cache/redis'
 import { IDatabaseAdapter } from '@/infra/database/adapter'
@@ -14,7 +15,7 @@ import { CategorySchema } from '@/infra/database/postgres/schemas/category'
 import { LoggerModule } from '@/infra/logger'
 import { TokenModule } from '@/libs/auth'
 
-import { ICreateCategoryAdapter, IDeleteCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
+import { ICreateCategoryAdapter, IDeleteCategoryAdapter, IListCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
 import { CategoryController } from './controller'
 import { CategoryRepository } from './repository'
 
@@ -42,6 +43,11 @@ import { CategoryRepository } from './repository'
     {
       provide: IDeleteCategoryAdapter,
       useFactory: (repository: ICategoryRepository) => new DeleteCategoryUseCase(repository),
+      inject: [ICategoryRepository]
+    },
+    {
+      provide: IListCategoryAdapter,
+      useFactory: (repository: ICategoryRepository) => new ListCategoryUseCase(repository),
       inject: [ICategoryRepository]
     }
   ],

@@ -49,10 +49,33 @@ export const SwaggerResponse = {
       message: '/api/v1/categories/1',
       description: 'Category not found'
     })
+  },
+  list: {
+    [HttpStatus.OK]: Swagger.defaultResponseJSON({
+      status: HttpStatus.OK,
+      json: CategoryResponse.list,
+      description: 'Category list'
+    })
   }
 }
 
 export const SwaggerRequest = {
   createBody: Swagger.defaultRequestJSON(CategoryRequest.create),
-  updateBody: Swagger.defaultRequestJSON(CategoryRequest.update)
+  updateBody: Swagger.defaultRequestJSON(CategoryRequest.update),
+  listQuery: {
+    pagination: {
+      limit: Swagger.defaultApiQueryOptions({ example: 10, name: 'limit', required: false }),
+      page: Swagger.defaultApiQueryOptions({ example: 1, name: 'page', required: false })
+    },
+    sort: Swagger.defaultApiQueryOptions({
+      name: 'sort',
+      required: false,
+      description: `<b>createdAt:desc,login:asc`
+    }),
+    search: Swagger.defaultApiQueryOptions({
+      name: 'search',
+      required: false,
+      description: `<b>login:value<login>`
+    })
+  }
 }

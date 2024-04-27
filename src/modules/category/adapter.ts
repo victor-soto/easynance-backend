@@ -2,6 +2,8 @@ import {
   CreateCategoryInput,
   DeleteCategoryInput,
   DeleteCategoryOutput,
+  ListCategoryInput,
+  ListCategoryOutput,
   UpdateCategoryOutput
 } from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository/types'
@@ -16,4 +18,8 @@ export abstract class IUpdateCategoryAdapter {
 
 export abstract class IDeleteCategoryAdapter {
   abstract execute(input: DeleteCategoryInput): Promise<DeleteCategoryOutput>
+}
+
+export abstract class IListCategoryAdapter {
+  abstract execute(input: ListCategoryInput): Promise<ListCategoryOutput>
 }
