@@ -4,6 +4,7 @@ import { ModelCtor, Sequelize } from 'sequelize-typescript'
 import { IsLoggedMiddleware } from '@/common/middlewares'
 import { CategoryEntity } from '@/core/category/entity/category'
 import { ICategoryRepository } from '@/core/category/repository'
+import { GetCategoryByIdUseCase } from '@/core/category/usecases/category-get-by-id'
 import { CreateCategoryUseCase } from '@/core/category/usecases/create-category'
 import { DeleteCategoryUseCase } from '@/core/category/usecases/delete-category'
 import { ListCategoryUseCase } from '@/core/category/usecases/list-category'
@@ -15,7 +16,13 @@ import { CategorySchema } from '@/infra/database/postgres/schemas/category'
 import { LoggerModule } from '@/infra/logger'
 import { TokenModule } from '@/libs/auth'
 
-import { ICreateCategoryAdapter, IDeleteCategoryAdapter, IListCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
+import {
+  ICategoryGetByIdAdapter,
+  ICreateCategoryAdapter,
+  IDeleteCategoryAdapter,
+  IListCategoryAdapter,
+  IUpdateCategoryAdapter
+} from './adapter'
 import { CategoryController } from './controller'
 import { CategoryRepository } from './repository'
 
@@ -48,6 +55,11 @@ import { CategoryRepository } from './repository'
     {
       provide: IListCategoryAdapter,
       useFactory: (repository: ICategoryRepository) => new ListCategoryUseCase(repository),
+      inject: [ICategoryRepository]
+    },
+    {
+      provide: ICategoryGetByIdAdapter,
+      useFactory: (repository: ICategoryRepository) => new GetCategoryByIdUseCase(repository),
       inject: [ICategoryRepository]
     }
   ],

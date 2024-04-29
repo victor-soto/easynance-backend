@@ -1,6 +1,11 @@
 import { faker } from '@faker-js/faker'
 
-import { DeleteCategoryOutput, ListCategoryOutput, UpdateCategoryOutput } from '@/core/category/usecases/types'
+import {
+  DeleteCategoryOutput,
+  GetCategoryByIdOutput,
+  ListCategoryOutput,
+  UpdateCategoryOutput
+} from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository'
 
 export const CategoryResponse = {
@@ -38,5 +43,13 @@ export const CategoryResponse = {
     limit: 10,
     page: 1,
     total: 0
-  } as ListCategoryOutput
+  } as ListCategoryOutput,
+  getById: {
+    id: faker.number.int(10),
+    name: faker.lorem.word(),
+    description: faker.lorem.paragraph(),
+    icon: faker.image.url(),
+    iconAltText: faker.lorem.slug(),
+    active: true
+  } as GetCategoryByIdOutput
 }

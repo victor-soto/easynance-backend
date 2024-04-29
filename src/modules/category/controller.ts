@@ -5,6 +5,8 @@ import { Request } from 'express'
 import {
   CreateCategoryInput,
   DeleteCategoryOutput,
+  GetCategoryByIdInput,
+  GetCategoryByIdOutput,
   ListCategoryInput,
   ListCategoryOutput,
   UpdateCategoryInput,
@@ -14,7 +16,13 @@ import { CreatedModel } from '@/infra/repository/types'
 import { SearchHttpSchema } from '@/utils/search'
 import { SortHttpSchema } from '@/utils/sort'
 
-import { ICreateCategoryAdapter, IDeleteCategoryAdapter, IListCategoryAdapter, IUpdateCategoryAdapter } from './adapter'
+import {
+  ICategoryGetByIdAdapter,
+  ICreateCategoryAdapter,
+  IDeleteCategoryAdapter,
+  IListCategoryAdapter,
+  IUpdateCategoryAdapter
+} from './adapter'
 import { SwaggerRequest, SwaggerResponse } from './swagger'
 
 @Controller({ path: 'categories', version: '1' })
@@ -25,7 +33,8 @@ export class CategoryController {
     private readonly listCategory: IListCategoryAdapter,
     private readonly createCategory: ICreateCategoryAdapter,
     private readonly updateCategory: IUpdateCategoryAdapter,
-    private readonly deleteCategory: IDeleteCategoryAdapter
+    private readonly deleteCategory: IDeleteCategoryAdapter,
+    private readonly categoryGetById: ICategoryGetByIdAdapter
   ) {}
 
   @Get()
@@ -67,5 +76,13 @@ export class CategoryController {
   @ApiParam({ name: 'id', required: true })
   async delete(@Req() { params }: Request): Promise<DeleteCategoryOutput> {
     return await this.deleteCategory.execute({ id: +params.id })
+  }
+
+  @Get('/:id')
+  @ApiResponse(SwaggerResponse.getById[HttpStatus.OK])
+  @ApiResponse(SwaggerResponse.getById[HttpStatus.NOT_FOUND])
+  @ApiParam({ name: 'id', required: true })
+  async getById(@Req() { params }: Request): Promise<GetCategoryByIdOutput> {
+    return await this.categoryGetById.execute({ id: +params.id } as GetCategoryByIdInput)
   }
 }

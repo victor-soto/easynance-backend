@@ -30,7 +30,7 @@ export class SequelizeRepository<T extends ModelCtor & IEntity> implements IRepo
   async findById<TOptions = DatabaseOptionsType>(id: string | number, options: TOptions): Promise<T> {
     const { schema } = DatabaseOptionsSchema.parse(options)
 
-    const model = await this.Model.schema(schema).findOne({ where: { id } })
+    const model = await this.Model.schema(schema).findOne({ where: { id, active: true } })
 
     if (!model) return
 
@@ -65,5 +65,18 @@ export class SequelizeRepository<T extends ModelCtor & IEntity> implements IRepo
       matchedCount: model.length,
       upsertedCount: model.length
     }
+  }
+
+  @ConvertSequelizeFilterToRepository()
+  async findOne<TQuery = Partial<T>, TOptions = DatabaseOptionsType>(filter: TQuery, options?: TOptions): Promise<T> {
+    const { schema } = DatabaseOptionsSchema.parse(options)
+
+    const model = await this.Model.schema(schema).findOne({
+      where: filter as WhereOptions<T>
+    })
+
+    if (!model) return
+
+    return model.toJSON()
   }
 }

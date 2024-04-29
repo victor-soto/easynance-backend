@@ -16,13 +16,19 @@ export const CreateCategorySchema = z.object({
 
 export const UpdateCategorySchema = CategoryEntitySchema.pick({
   id: true
-}).merge(CategoryEntitySchema.omit({ id: true }).partial())
+})
+  .merge(CategoryEntitySchema.omit({ id: true, active: true }).partial())
+  .strict()
 
 export const DeleteCategorySchema = CategoryEntitySchema.pick({
   id: true
 })
 
 export const ListCategorySchema = z.intersection(PaginationSchema, SortSchema.merge(SearchSchema))
+
+export const GetCategoryByIdSchema = CategoryEntitySchema.pick({
+  id: true
+})
 
 export type CreateCategoryInput = z.infer<typeof CreateCategorySchema>
 export type UpdateCategoryOutput = CategoryEntity
@@ -31,3 +37,5 @@ export type DeleteCategoryOutput = CategoryEntity
 export type DeleteCategoryInput = z.infer<typeof DeleteCategorySchema>
 export type ListCategoryInput = PaginationInput<CategoryEntity>
 export type ListCategoryOutput = PaginationOutput<CategoryEntity>
+export type GetCategoryByIdInput = z.infer<typeof GetCategoryByIdSchema>
+export type GetCategoryByIdOutput = CategoryEntity

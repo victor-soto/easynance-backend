@@ -1,5 +1,6 @@
 import { ValidateSchema } from '@/common/decorators/validate-schema.decorator'
 import { ApiConflictException, ApiNotFoundException } from '@/utils/exception'
+import { DatabaseOptionsType } from '@/utils/sequelize'
 
 import { CategoryEntity } from '../entity/category'
 import { ICategoryRepository } from '../repository'
@@ -10,7 +11,7 @@ export class UpdateCategoryUseCase {
 
   @ValidateSchema(UpdateCategorySchema)
   async execute(input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
-    const category = await this.repository.findById(input.id)
+    const category = await this.repository.findById<DatabaseOptionsType>(input.id)
     if (!category) throw new ApiNotFoundException('Category not found')
 
     const existingCategory = await this.repository.existsOnUpdate({ name: input.name }, { id: input.id })

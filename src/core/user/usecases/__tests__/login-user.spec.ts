@@ -62,7 +62,7 @@ describe('#LoginUseCase', () => {
     useCase = app.get<ILoginAdapter>(ILoginAdapter)
   })
 
-  afterAll(() => {
+  afterEach(() => {
     jest.clearAllMocks()
   })
 

@@ -56,6 +56,19 @@ export const SwaggerResponse = {
       json: CategoryResponse.list,
       description: 'Category list'
     })
+  },
+  getById: {
+    [HttpStatus.OK]: Swagger.defaultResponseJSON({
+      status: HttpStatus.OK,
+      json: CategoryResponse.getById,
+      description: 'Category by id'
+    }),
+    [HttpStatus.NOT_FOUND]: Swagger.defaultResponseError({
+      status: HttpStatus.NOT_FOUND,
+      route: 'route',
+      message: '/api/v1/categories/1',
+      description: 'Category not found'
+    })
   }
 }
 

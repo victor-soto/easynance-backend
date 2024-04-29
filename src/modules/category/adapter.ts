@@ -2,6 +2,8 @@ import {
   CreateCategoryInput,
   DeleteCategoryInput,
   DeleteCategoryOutput,
+  GetCategoryByIdInput,
+  GetCategoryByIdOutput,
   ListCategoryInput,
   ListCategoryOutput,
   UpdateCategoryOutput
@@ -22,4 +24,8 @@ export abstract class IDeleteCategoryAdapter {
 
 export abstract class IListCategoryAdapter {
   abstract execute(input: ListCategoryInput): Promise<ListCategoryOutput>
+}
+
+export abstract class ICategoryGetByIdAdapter {
+  abstract execute(input: GetCategoryByIdInput): Promise<GetCategoryByIdOutput>
 }
