@@ -30,6 +30,10 @@ export const GetCategoryByIdSchema = CategoryEntitySchema.pick({
   id: true
 })
 
+export const RestoreCategorySchema = CategoryEntitySchema.pick({
+  id: true
+})
+
 export type CreateCategoryInput = z.infer<typeof CreateCategorySchema>
 export type UpdateCategoryOutput = CategoryEntity
 export type UpdateCategoryInput = z.infer<typeof UpdateCategorySchema>
@@ -39,3 +43,5 @@ export type ListCategoryInput = PaginationInput<CategoryEntity>
 export type ListCategoryOutput = PaginationOutput<CategoryEntity>
 export type GetCategoryByIdInput = z.infer<typeof GetCategoryByIdSchema>
 export type GetCategoryByIdOutput = CategoryEntity
+export type RestoreCategoryInput = z.infer<typeof RestoreCategorySchema>
+export type RestoreCategoryOutput = CategoryEntity

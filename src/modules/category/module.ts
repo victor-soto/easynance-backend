@@ -8,6 +8,7 @@ import { GetCategoryByIdUseCase } from '@/core/category/usecases/category-get-by
 import { CreateCategoryUseCase } from '@/core/category/usecases/create-category'
 import { DeleteCategoryUseCase } from '@/core/category/usecases/delete-category'
 import { ListCategoryUseCase } from '@/core/category/usecases/list-category'
+import { RestoreCategoryUseCase } from '@/core/category/usecases/restore-category'
 import { UpdateCategoryUseCase } from '@/core/category/usecases/update-category'
 import { RedisCacheModule } from '@/infra/cache/redis'
 import { IDatabaseAdapter } from '@/infra/database/adapter'
@@ -21,6 +22,7 @@ import {
   ICreateCategoryAdapter,
   IDeleteCategoryAdapter,
   IListCategoryAdapter,
+  IRestoreCategoryAdapter,
   IUpdateCategoryAdapter
 } from './adapter'
 import { CategoryController } from './controller'
@@ -60,6 +62,11 @@ import { CategoryRepository } from './repository'
     {
       provide: ICategoryGetByIdAdapter,
       useFactory: (repository: ICategoryRepository) => new GetCategoryByIdUseCase(repository),
+      inject: [ICategoryRepository]
+    },
+    {
+      provide: IRestoreCategoryAdapter,
+      useFactory: (repository: ICategoryRepository) => new RestoreCategoryUseCase(repository),
       inject: [ICategoryRepository]
     }
   ],

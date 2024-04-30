@@ -17,8 +17,6 @@ export function ConvertSequelizeFilterToRepository() {
         return result
       }
 
-      Object.assign(input, { active: true })
-
       args[0] = input
 
       const result = originalMethod.apply(this, args)

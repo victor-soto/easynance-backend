@@ -4,44 +4,38 @@ dotenv.config()
 
 const databaseEnv = {
   local: {
-    dev: {
-      username: process.env['POSTGRES_USER'],
-      password: process.env['POSTGRES_PASSWORD'],
-      database: process.env['POSTGRES_DB'],
-      host: process.env['POSTGRES_HOST'],
-      port: process.env['POSTGRES_PORT'],
-      dialect: 'postgres',
-      dialectOptions: {
-        bigNumberStrings: true
-      }
+    username: process.env['POSTGRES_USER'],
+    password: process.env['POSTGRES_PASSWORD'],
+    database: process.env['POSTGRES_DB'],
+    host: process.env['POSTGRES_HOST'],
+    port: process.env['POSTGRES_PORT'],
+    dialect: 'postgres',
+    dialectOptions: {
+      bigNumberStrings: true
     }
   },
-  DEV: {
-    dev: {
-      username: process.env['POSTGRES_USER'],
-      password: process.env['POSTGRES_PASSWORD'],
-      database: process.env['POSTGRES_DB'],
-      host: process.env['POSTGRES_HOST'],
-      port: process.env['POSTGRES_PORT'],
-      dialect: 'postgres',
-      dialectOptions: {
-        bigNumberStrings: true
-      }
+  dev: {
+    username: process.env['POSTGRES_USER'],
+    password: process.env['POSTGRES_PASSWORD'],
+    database: process.env['POSTGRES_DB'],
+    host: process.env['POSTGRES_HOST'],
+    port: process.env['POSTGRES_PORT'],
+    dialect: 'postgres',
+    dialectOptions: {
+      bigNumberStrings: true
     }
   },
-  PRD: {
-    prd: {
-      username: process.env['POSTGRES_USER'],
-      password: process.env['POSTGRES_PASSWORD'],
-      database: process.env['POSTGRES_DB'],
-      host: process.env['POSTGRES_HOST'],
-      port: process.env['POSTGRES_PORT'],
-      dialect: 'postgres',
-      dialectOptions: {
-        bigNumberStrings: true,
-        ssl: {
-          ca: null
-        }
+  prd: {
+    username: process.env['POSTGRES_USER'],
+    password: process.env['POSTGRES_PASSWORD'],
+    database: process.env['POSTGRES_DB'],
+    host: process.env['POSTGRES_HOST'],
+    port: process.env['POSTGRES_PORT'],
+    dialect: 'postgres',
+    dialectOptions: {
+      bigNumberStrings: true,
+      ssl: {
+        ca: null
       }
     }
   }
