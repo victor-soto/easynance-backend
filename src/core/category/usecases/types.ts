@@ -6,13 +6,14 @@ import { SortSchema } from '@/utils/sort'
 
 import { CategoryEntity, CategoryEntitySchema } from '../entity/category'
 
-export const CreateCategorySchema = z.object({
-  name: z.string(),
-  description: z.string().nullish(),
-  icon: z.string(),
-  iconAltText: z.string().nullish(),
-  active: z.boolean().default(true)
-})
+export const CreateCategorySchema = CategoryEntitySchema.pick({
+  name: true,
+  type: true,
+  icon: true,
+  iconAltText: true,
+  active: true,
+  description: true
+}).strict()
 
 export const UpdateCategorySchema = CategoryEntitySchema.pick({
   id: true

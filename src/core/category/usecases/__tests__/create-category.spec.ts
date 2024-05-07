@@ -5,7 +5,7 @@ import { ZodIssue } from 'zod'
 import { ICreateCategoryAdapter } from '@/modules/category/adapter'
 import { expectZodError, mockedTransaction } from '@/utils/tests'
 
-import { CategoryEntity } from '../../entity/category'
+import { CategoryEntity, CategoryType } from '../../entity/category'
 import { ICategoryRepository } from '../../repository'
 import { CreateCategoryUseCase } from '../create-category'
 import { CreateCategoryInput } from '../types'
@@ -21,6 +21,7 @@ describe('#CreateCategoryUseCase', () => {
 
   const entity: CreateCategoryInput = {
     name: faker.lorem.word(),
+    type: CategoryType.Expense,
     description: faker.lorem.paragraph(1),
     icon: faker.internet.url(),
     iconAltText: faker.lorem.paragraph(1)
@@ -60,6 +61,7 @@ describe('#CreateCategoryUseCase', () => {
       (issues: ZodIssue[]) => {
         expect(issues).toEqual([
           { message: 'Required', path: CategoryEntity.nameOf('name') },
+          { message: 'Required', path: CategoryEntity.nameOf('type') },
           { message: 'Required', path: CategoryEntity.nameOf('icon') }
         ])
       }

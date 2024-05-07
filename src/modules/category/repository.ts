@@ -37,7 +37,8 @@ export class CategoryRepository extends SequelizeRepository<Model> implements IC
   @ValidateDatabaseSortAllowed<CategoryEntity>('createdAt', 'updatedAt')
   @ConvertPaginateInputToSequelizeFilter<CategoryEntity>([
     { name: 'name', type: SearchTypeEnum.like },
-    { name: 'active', type: SearchTypeEnum.equal }
+    { name: 'active', type: SearchTypeEnum.equal },
+    { name: 'type', type: SearchTypeEnum.equal }
   ])
   async paginate(input: ListCategoryInput, options?: DatabaseOptionsType): Promise<ListCategoryOutput> {
     const { schema } = DatabaseOptionsSchema.parse(options)

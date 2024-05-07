@@ -90,6 +90,9 @@ export class CategoryController {
   }
 
   @Put('/:id/restore')
+  @ApiResponse(SwaggerResponse.restore[HttpStatus.OK])
+  @ApiResponse(SwaggerResponse.restore[HttpStatus.NOT_FOUND])
+  @ApiParam({ name: 'id', required: true })
   async restore(@Req() { params }: Request): Promise<RestoreCategoryOutput> {
     return await this.restoreCategory.execute({ id: +params.id } as RestoreCategoryOutput)
   }

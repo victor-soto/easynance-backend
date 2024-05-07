@@ -17,6 +17,7 @@ export const CategoryResponse = {
   update: {
     id: faker.number.int(10),
     name: faker.lorem.word(),
+    type: faker.helpers.arrayElement(['Income', 'Expense']),
     description: faker.lorem.paragraph(),
     icon: faker.image.url(),
     iconAltText: faker.lorem.slug(),
@@ -25,6 +26,7 @@ export const CategoryResponse = {
   delete: {
     id: faker.number.int(10),
     name: faker.lorem.word(),
+    type: faker.helpers.arrayElement(['Income', 'Expense']),
     description: faker.lorem.paragraph(),
     icon: faker.image.url(),
     iconAltText: faker.lorem.slug(),
@@ -34,6 +36,7 @@ export const CategoryResponse = {
     items: [
       {
         id: faker.number.int(10),
+        type: faker.helpers.arrayElement(['Income', 'Expense']),
         name: faker.lorem.word(),
         description: faker.lorem.paragraph(),
         icon: faker.image.url(),
@@ -47,6 +50,7 @@ export const CategoryResponse = {
   } as ListCategoryOutput,
   getById: {
     id: faker.number.int(10),
+    type: faker.helpers.arrayElement(['Income', 'Expense']),
     name: faker.lorem.word(),
     description: faker.lorem.paragraph(),
     icon: faker.image.url(),
@@ -56,6 +60,7 @@ export const CategoryResponse = {
   restore: {
     id: faker.number.int(10),
     name: faker.lorem.word(),
+    type: faker.helpers.arrayElement(['Income', 'Expense']),
     description: faker.lorem.paragraph(),
     icon: faker.image.url(),
     iconAltText: faker.lorem.slug(),
