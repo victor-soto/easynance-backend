@@ -14,10 +14,16 @@ export const BaseEntity = <T>(schema: ZodSchema) => {
 
     readonly updatedAt: Date
 
+    deletedAt: Date
+
     static nameOf = (name: keyof T) => name
 
     validate<T>(entity: T): ZodType {
       return schema.parse(entity)
+    }
+
+    setDeleted() {
+      this.deletedAt = new Date()
     }
   }
 

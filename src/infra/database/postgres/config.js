@@ -12,7 +12,8 @@ const databaseEnv = {
     dialect: 'postgres',
     dialectOptions: {
       bigNumberStrings: true
-    }
+    },
+    logging: true
   },
   dev: {
     username: process.env['POSTGRES_USER'],

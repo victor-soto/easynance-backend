@@ -34,7 +34,7 @@ export class CategoryRepository extends SequelizeRepository<Model> implements IC
     return !!category
   }
 
-  @ValidateDatabaseSortAllowed<CategoryEntity>('createdAt', 'updatedAt')
+  @ValidateDatabaseSortAllowed<CategoryEntity>('name', 'createdAt', 'updatedAt')
   @ConvertPaginateInputToSequelizeFilter<CategoryEntity>([
     { name: 'name', type: SearchTypeEnum.like },
     { name: 'active', type: SearchTypeEnum.equal },

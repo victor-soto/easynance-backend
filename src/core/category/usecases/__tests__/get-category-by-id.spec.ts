@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker'
 import { Test } from '@nestjs/testing'
 import { ZodIssue } from 'zod'
 
+import { CategoryEntity, CategoryType } from '@/core/category/entity/category'
 import { ICategoryGetByIdAdapter as IGetCategoryByIdAdapter } from '@/modules/category/adapter'
 import { ApiNotFoundException } from '@/utils/exception'
 import { expectZodError } from '@/utils/tests'
 
-import { CategoryEntity } from '../../entity/category'
 import { ICategoryRepository } from '../../repository'
 import { GetCategoryByIdUseCase } from '../category-get-by-id'
 
@@ -56,7 +56,8 @@ describe('#GetCategoryByIdUseCase', () => {
       description: faker.lorem.words(5),
       icon: faker.image.url(),
       iconAltText: faker.lorem.slug(),
-      active: true
+      active: true,
+      type: CategoryType.Expense
     } as CategoryEntity
     repositoryMock.findById.mockReturnValueOnce(categoryMock)
     await expect(useCase.execute({ id: categoryMock.id })).resolves.toEqual(categoryMock)

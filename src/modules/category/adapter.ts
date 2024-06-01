@@ -6,8 +6,6 @@ import {
   GetCategoryByIdOutput,
   ListCategoryInput,
   ListCategoryOutput,
-  RestoreCategoryInput,
-  RestoreCategoryOutput,
   UpdateCategoryOutput
 } from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository/types'
@@ -30,8 +28,4 @@ export abstract class IListCategoryAdapter {
 
 export abstract class ICategoryGetByIdAdapter {
   abstract execute(input: GetCategoryByIdInput): Promise<GetCategoryByIdOutput>
-}
-
-export abstract class IRestoreCategoryAdapter {
-  abstract execute(input: RestoreCategoryInput): Promise<RestoreCategoryOutput>
 }

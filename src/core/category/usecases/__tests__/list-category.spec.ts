@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker'
 import { Test } from '@nestjs/testing'
 import { ZodIssue } from 'zod'
 
+import { CategoryEntity, CategoryType } from '@/core/category/entity/category'
+import { ICategoryRepository } from '@/core/category/repository'
 import { IListCategoryAdapter } from '@/modules/category/adapter'
 import { expectZodError } from '@/utils/tests'
 
-import { CategoryEntity } from '../../entity/category'
-import { ICategoryRepository } from '../../repository'
 import { ListCategoryUseCase } from '../list-category'
 import { ListCategoryInput } from '../types'
 
@@ -45,7 +45,8 @@ describe('#ListCategoryUseCase', () => {
         description: faker.lorem.paragraph(),
         active: true,
         icon: faker.image.url(),
-        iconAltText: faker.lorem.slug()
+        iconAltText: faker.lorem.slug(),
+        type: CategoryType.Expense
       } as CategoryEntity
     ]
     repositoryMock.paginate.mockResolvedValue({ items: categories, page: 1, limit: 1, total: 1 })

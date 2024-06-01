@@ -3,7 +3,7 @@ import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescr
 import { RoleSchema } from './role'
 import { RolePermissionSchema } from './role_permission'
 
-@Table({ timestamps: true, tableName: 'permissions', underscored: true })
+@Table({ timestamps: true, tableName: 'permissions', underscored: true, paranoid: true })
 export class PermissionSchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   id: number

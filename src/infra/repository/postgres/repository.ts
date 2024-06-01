@@ -30,7 +30,7 @@ export class SequelizeRepository<T extends ModelCtor & IEntity> implements IRepo
   async findById<TOptions = DatabaseOptionsType>(id: string | number, options: TOptions): Promise<T> {
     const { schema } = DatabaseOptionsSchema.parse(options)
 
-    const model = await this.Model.schema(schema).findOne({ where: { id, active: true } })
+    const model = await this.Model.schema(schema).findOne({ where: { id } })
 
     if (!model) return
 

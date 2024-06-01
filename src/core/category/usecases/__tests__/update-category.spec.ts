@@ -5,7 +5,7 @@ import { ZodIssue } from 'zod'
 import { IUpdateCategoryAdapter } from '@/modules/category/adapter'
 import { expectZodError } from '@/utils/tests'
 
-import { CategoryEntity } from '../../entity/category'
+import { CategoryEntity, CategoryType } from '../../entity/category'
 import { ICategoryRepository } from '../../repository'
 import { UpdateCategoryInput } from '../types'
 import { UpdateCategoryUseCase } from '../update-category'
@@ -47,15 +47,18 @@ describe('#UpdateCategoryUseCase', () => {
   })
 
   it('when category updated successfully, should expect a category updated', async () => {
-    categoryRepositoryMock.findById.mockReturnValueOnce({
+    const existingCategory = {
+      id: 1,
       name: faker.lorem.word(),
       icon: faker.image.url(),
+      type: CategoryType.Expense,
       active: true
-    })
+    }
+    categoryRepositoryMock.findById.mockReturnValueOnce(existingCategory)
     categoryRepositoryMock.existsOnUpdate.mockReturnValueOnce(false)
     categoryRepositoryMock.updateOne.mockReturnValueOnce({ matchedCount: 1, modifiedCount: 1, upsertedCount: 0 })
-    categoryRepositoryMock.findById.mockReturnValueOnce({ ...input, active: true })
-    await expect(useCase.execute(input)).resolves.toEqual({ ...input, active: true })
+    categoryRepositoryMock.findById.mockReturnValueOnce({ ...existingCategory, ...input })
+    await expect(useCase.execute(input)).resolves.toEqual({ ...existingCategory, ...input })
     expect(categoryRepositoryMock.existsOnUpdate).toHaveBeenCalledWith({ name: input.name }, { id: input.id })
   })
 

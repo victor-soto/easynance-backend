@@ -69,19 +69,6 @@ export const SwaggerResponse = {
       message: '/api/v1/categories/1',
       description: 'Category not found'
     })
-  },
-  restore: {
-    [HttpStatus.OK]: Swagger.defaultResponseJSON({
-      status: HttpStatus.OK,
-      json: CategoryResponse.restore,
-      description: 'Category restored'
-    }),
-    [HttpStatus.NOT_FOUND]: Swagger.defaultResponseError({
-      status: HttpStatus.NOT_FOUND,
-      route: 'route',
-      message: '/api/v1/categories/1',
-      description: 'Category not found'
-    })
   }
 }
 

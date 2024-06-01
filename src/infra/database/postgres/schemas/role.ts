@@ -10,7 +10,7 @@ export enum ROLE {
   USER
 }
 
-@Table({ timestamps: true, tableName: 'roles', underscored: true })
+@Table({ timestamps: true, tableName: 'roles', underscored: true, paranoid: true })
 export class RoleSchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   id: number

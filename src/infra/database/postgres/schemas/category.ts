@@ -2,7 +2,7 @@ import { Column, DataType, Model, Table } from 'sequelize-typescript'
 
 import { CategoryType } from '@/core/category/entity/category'
 
-@Table({ timestamps: true, tableName: 'categories', underscored: true })
+@Table({ timestamps: true, tableName: 'categories', underscored: true, paranoid: true })
 export class CategorySchema extends Model {
   @Column({ primaryKey: true, autoIncrement: true, type: DataType.INTEGER })
   id: number

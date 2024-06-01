@@ -2,12 +2,12 @@ import { faker } from '@faker-js/faker'
 import { Test } from '@nestjs/testing'
 import { ZodError } from 'zod'
 
+import { CategoryEntity, CategoryType } from '@/core/category/entity/category'
+import { ICategoryRepository } from '@/core/category/repository'
 import { UpdatedModel } from '@/infra/repository'
 import { IDeleteCategoryAdapter } from '@/modules/category/adapter'
 import { expectZodError } from '@/utils/tests'
 
-import { CategoryEntity } from '../../entity/category'
-import { ICategoryRepository } from '../../repository'
 import { DeleteCategoryUseCase } from '../delete-category'
 
 describe('#DeleteCategoryUseCase', () => {
@@ -47,7 +47,8 @@ describe('#DeleteCategoryUseCase', () => {
       name: faker.lorem.word(),
       icon: faker.image.url(),
       iconAltText: faker.lorem.slug(),
-      active: true
+      active: true,
+      type: CategoryType.Expense
     } as CategoryEntity
     categoryRepositoryMock.findById.mockResolvedValueOnce(category)
     categoryRepositoryMock.updateOne.mockResolvedValueOnce({
@@ -55,7 +56,7 @@ describe('#DeleteCategoryUseCase', () => {
       modifiedCount: 1,
       upsertedCount: 0
     } as UpdatedModel)
-    await expect(useCase.execute({ id: 1 })).resolves.toEqual({ ...category, active: false })
+    await expect(useCase.execute({ id: 1 })).resolves.toEqual({ ...category, deletedAt: expect.any(Date) })
   })
 
   it('when category not found, should return an error', async () => {

@@ -9,7 +9,6 @@ import {
   GetCategoryByIdOutput,
   ListCategoryInput,
   ListCategoryOutput,
-  RestoreCategoryOutput,
   UpdateCategoryInput,
   UpdateCategoryOutput
 } from '@/core/category/usecases/types'
@@ -22,7 +21,6 @@ import {
   ICreateCategoryAdapter,
   IDeleteCategoryAdapter,
   IListCategoryAdapter,
-  IRestoreCategoryAdapter,
   IUpdateCategoryAdapter
 } from './adapter'
 import { SwaggerRequest, SwaggerResponse } from './swagger'
@@ -36,8 +34,7 @@ export class CategoryController {
     private readonly createCategory: ICreateCategoryAdapter,
     private readonly updateCategory: IUpdateCategoryAdapter,
     private readonly deleteCategory: IDeleteCategoryAdapter,
-    private readonly categoryGetById: ICategoryGetByIdAdapter,
-    private readonly restoreCategory: IRestoreCategoryAdapter
+    private readonly categoryGetById: ICategoryGetByIdAdapter
   ) {}
 
   @Get()
@@ -87,13 +84,5 @@ export class CategoryController {
   @ApiParam({ name: 'id', required: true })
   async getById(@Req() { params }: Request): Promise<GetCategoryByIdOutput> {
     return await this.categoryGetById.execute({ id: +params.id } as GetCategoryByIdInput)
-  }
-
-  @Put('/:id/restore')
-  @ApiResponse(SwaggerResponse.restore[HttpStatus.OK])
-  @ApiResponse(SwaggerResponse.restore[HttpStatus.NOT_FOUND])
-  @ApiParam({ name: 'id', required: true })
-  async restore(@Req() { params }: Request): Promise<RestoreCategoryOutput> {
-    return await this.restoreCategory.execute({ id: +params.id } as RestoreCategoryOutput)
   }
 }

@@ -4,7 +4,6 @@ import {
   DeleteCategoryOutput,
   GetCategoryByIdOutput,
   ListCategoryOutput,
-  RestoreCategoryOutput,
   UpdateCategoryOutput
 } from '@/core/category/usecases/types'
 import { CreatedModel } from '@/infra/repository'
@@ -56,14 +55,5 @@ export const CategoryResponse = {
     icon: faker.image.url(),
     iconAltText: faker.lorem.slug(),
     active: true
-  } as GetCategoryByIdOutput,
-  restore: {
-    id: faker.number.int(10),
-    name: faker.lorem.word(),
-    type: faker.helpers.arrayElement(['Income', 'Expense']),
-    description: faker.lorem.paragraph(),
-    icon: faker.image.url(),
-    iconAltText: faker.lorem.slug(),
-    active: true
-  } as RestoreCategoryOutput
+  } as GetCategoryByIdOutput
 }
