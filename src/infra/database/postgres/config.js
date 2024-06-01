@@ -13,7 +13,7 @@ const databaseEnv = {
     dialectOptions: {
       bigNumberStrings: true
     },
-    logging: true
+    logging: process.env['LOGGING_MIGRATIONS']
   },
   dev: {
     username: process.env['POSTGRES_USER'],

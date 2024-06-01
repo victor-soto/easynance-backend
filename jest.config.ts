@@ -22,7 +22,17 @@ export default {
   },
   testEnvironment: 'node',
   collectCoverageFrom: ['**/*.ts'],
-  coverageDirectory: '../../coverage',
+  coverageDirectory: '../coverage',
   coverageReporters: ['json-summary', 'lcov'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../' })
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../' }),
+  coveragePathIgnorePatterns: [
+    'controller.ts',
+    'module.ts',
+    'main.ts',
+    'swagger.ts',
+    'repository.ts',
+    '<rootDir>/infra/',
+    '<rootDir>/common/',
+    '<rootDir>/utils/'
+  ]
 }

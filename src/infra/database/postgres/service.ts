@@ -4,6 +4,7 @@ import { ILoggerAdapter } from '@/infra/logger/adapter'
 import { ISecretAdapter } from '@/infra/secrets/adapter'
 
 import { IDatabaseAdapter } from '../adapter'
+import { BudgetSchema } from './schemas/budget'
 import { CategorySchema } from './schemas/category'
 import { PermissionSchema } from './schemas/permission'
 import { RoleSchema } from './schemas/role'
@@ -39,7 +40,8 @@ export class SequelizeService implements IDatabaseAdapter {
         PermissionSchema,
         RolePermissionSchema,
         UserRoleSchema,
-        CategorySchema
+        CategorySchema,
+        BudgetSchema
       ])
       this.logger.log(`🎯 ${dialect} connected successfully!`)
       this.sequelize = dbInstance
