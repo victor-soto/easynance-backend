@@ -4,6 +4,11 @@
   "version": "1.0.0",
   "description": "Nest TypeScript starter repository",
   "license": "MIT",
+  "os": [
+    "linux",
+    "win32",
+    "darwin"
+  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -22,7 +27,7 @@
     "migration:undo": "npx ts-node -r tsconfig-paths/register ./node_modules/sequelize-cli/lib/sequelize db:migrate:undo",
     "seeders:run": "npx sequelize-cli db:seed:all",
     "seeders:undo": "npx sequelize-cli db:seed:undo",
-    "prepare": "cd .. && husky backend/.husky"
+    "prepare": "husky backend/.husky"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.2",
@@ -51,8 +56,8 @@
     "@nestjs/cli": "^10.3.1",
     "@nestjs/schematics": "^10.1.0",
     "@nestjs/testing": "^10.3.2",
-    "@swc/cli": "^0.3.9",
-    "@swc/core": "^1.4.0",
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.5.24",
     "@swc/jest": "^0.2.36",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
@@ -80,5 +85,17 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "5.3.3"
+  },
+  "optionalDependencies": {
+    "@swc/core-darwin-arm64": "^1.5.24",
+    "@swc/core-darwin-x64": "^1.5.24",
+    "@swc/core-linux-arm-gnueabihf": "^1.5.24",
+    "@swc/core-linux-arm64-gnu": "^1.5.24",
+    "@swc/core-linux-arm64-musl": "^1.5.24",
+    "@swc/core-linux-x64-gnu": "^1.5.24",
+    "@swc/core-linux-x64-musl": "^1.5.24",
+    "@swc/core-win32-arm64-msvc": "^1.5.24",
+    "@swc/core-win32-ia32-msvc": "^1.5.24",
+    "@swc/core-win32-x64-msvc": "^1.5.24"
   }
 }
