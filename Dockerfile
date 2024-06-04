@@ -1,13 +1,21 @@
-FROM node:18-alpine
+# Base image
+FROM node:20-slim
 
-WORKDIR /app
+# Create app directory
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
 
-COPY . .
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY --chown=node package*.json ./
 
-RUN npm i -g @nestjs/cli
-RUN npm ci --omit=dev --ignore-scripts
+# Install app dependencies
+RUN npm ci
+
+# Bundle app source
+COPY --chown=node . .
+
+# Creates a "dist" folder with the production build
 RUN npm run build
 
-RUN ls dist/src -al
-
-CMD ["node", "dist/src/main.js"]
+# Start the server using the production build
+CMD [ "node", "dist/main.js" ]
