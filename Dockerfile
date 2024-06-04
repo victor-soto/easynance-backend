@@ -1,21 +1,44 @@
-# Base image
-FROM node:20-slim
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=20.2.0
+FROM node:${NODE_VERSION}-slim as base
 
-# Create app directory
-RUN mkdir -p /home/node/app
-WORKDIR /home/node/app
+LABEL fly_launch_runtime="Easynance API"
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY --chown=node package*.json ./
+# NestJS app lives here
+WORKDIR /app
 
-# Install app dependencies
-RUN npm ci
+# Set production environment
+ENV NODE_ENV=production
 
-# Bundle app source
-COPY --chown=node . .
+# Throw-away build stage to reduce size of final image
+FROM base as build
 
-# Creates a "dist" folder with the production build
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install -y python-is-python3 pkg-config build-essential 
+
+# Install node modules
+COPY --link package-lock.json package.json ./
+RUN npm ci --include=dev
+
+# Copy application code
+COPY --link . .
+
+# Run tests
+RUN npm run test
+
+# Lint code
+RUN npm run lint
+
+# Build application
 RUN npm run build
 
-# Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+# Final stage for app image
+FROM base
+
+# Copy built application
+COPY --from=build /app /app
+
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 3000
+CMD [ "npm", "run", "start:migrate:prod" ]
