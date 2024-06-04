@@ -36,7 +36,8 @@ const databaseEnv = {
     dialectOptions: {
       bigNumberStrings: true,
       ssl: {
-        ca: null
+        require: true,
+        rejectUnauthorized: false
       }
     }
   }
