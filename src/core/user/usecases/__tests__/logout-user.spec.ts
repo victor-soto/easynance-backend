@@ -41,6 +41,8 @@ describe('#LogoutUseCase', () => {
     useCase = app.get(ILogoutAdapter)
   })
 
+  afterEach(() => jest.clearAllMocks())
+
   it('when no input is specified, should expect an error', async () => {
     await expectZodError(
       () => useCase.execute({}),

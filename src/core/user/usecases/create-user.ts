@@ -1,4 +1,7 @@
 import { ValidateSchema } from '@/common/decorators/validate-schema.decorator'
+import { UserRoleEntity } from '@/core/user-role/entity/user-role'
+import { ROLE } from '@/infra/database/postgres/schemas/role'
+import { UserRoleSchema } from '@/infra/database/postgres/schemas/user_role'
 import { ICryptoAdapter } from '@/libs/crypto'
 import { ApiConflictException } from '@/utils/exception'
 
@@ -27,7 +30,8 @@ export class CreateUserUseCase {
     try {
       const password = await this.crypto.createHash(entity.password)
       entity.password = password
-      const user = await this.userRepository.create(entity, { transaction: transaction })
+      entity.userRoles = [new UserRoleEntity({ userId: entity.id, roleId: ROLE.USER })]
+      const user = await this.userRepository.create(entity, { transaction: transaction, include: [UserRoleSchema] })
       await transaction.commit()
       return user
     } catch (err) {

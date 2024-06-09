@@ -45,9 +45,7 @@ describe('#CreateUserUseCase', () => {
     useCase = app.get(ICreateUserAdapter)
   })
 
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
+  afterEach(() => jest.clearAllMocks())
 
   it('when user created successfully, should expect an user that has been created', async () => {
     userRepositoryMock.create.mockResolvedValueOnce({ id: faker.number.int(10), created: true })

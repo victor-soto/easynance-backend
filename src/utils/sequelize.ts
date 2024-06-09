@@ -6,7 +6,8 @@ export const DEFAULT_SCHEMA = 'public'
 export const DatabaseOptionsSchema = z
   .object({
     schema: z.string().trim().default(DEFAULT_SCHEMA),
-    transaction: z.any().optional().nullable()
+    transaction: z.any().optional().nullable(),
+    include: z.any().optional()
   })
   .default({
     schema: DEFAULT_SCHEMA

@@ -16,12 +16,13 @@ import { LoggerModule } from '@/infra/logger'
 import { TokenModule } from '@/libs/auth'
 import { CryptoLibModule, ICryptoAdapter } from '@/libs/crypto'
 
+import { RoleModule } from '../role/module'
 import { ICreateUserAdapter, IDeleteUserAdapter, IListUserAdapter, IUpdateUserAdapter } from './adapter'
 import { UserController } from './controller'
 import { UserRepository } from './repository'
 
 @Module({
-  imports: [DatabaseModule, CryptoLibModule, RedisCacheModule, TokenModule, LoggerModule],
+  imports: [DatabaseModule, CryptoLibModule, RedisCacheModule, TokenModule, LoggerModule, RoleModule],
   providers: [
     {
       provide: IUserRepository,
@@ -65,6 +66,9 @@ import { UserRepository } from './repository'
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IsLoggedMiddleware).exclude({ path: 'users', method: RequestMethod.POST }).forRoutes(UserController)
+    consumer
+      .apply(IsLoggedMiddleware)
+      .exclude({ path: 'users', version: '1', method: RequestMethod.POST })
+      .forRoutes(UserController)
   }
 }
