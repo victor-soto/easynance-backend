@@ -35,6 +35,8 @@ describe('#DeleteUserUseCase', () => {
     useCase = app.get<IDeleteUserAdapter>(IDeleteUserAdapter)
   })
 
+  afterEach(() => jest.clearAllMocks())
+
   it('when no input is specified, should expect an error', async () => {
     await expectZodError(
       () => useCase.execute({}),

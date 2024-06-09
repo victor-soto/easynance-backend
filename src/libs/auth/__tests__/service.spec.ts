@@ -40,6 +40,8 @@ describe('TokenService', () => {
     service = app.get<ITokenAdapter>(ITokenAdapter)
   })
 
+  afterEach(() => jest.clearAllMocks())
+
   describe('#authorizeRequest', () => {
     it('when user has permission, should return true', async () => {
       permissionRepoMock.findAllByRoles.mockResolvedValueOnce([{ path: '/users', method: 'GET' }])

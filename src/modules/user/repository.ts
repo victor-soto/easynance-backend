@@ -49,8 +49,8 @@ export class UserRepository implements IUserRepository {
   }
 
   async create(user: UserEntity, saveOptions: SaveOptionsType): Promise<CreatedModel> {
-    const { schema, transaction } = DatabaseOptionsSchema.parse(saveOptions)
-    const createdUser = await this.repository.schema(schema).create<Model<UserEntity>>(user, { transaction })
+    const { schema, transaction, include } = DatabaseOptionsSchema.parse(saveOptions)
+    const createdUser = await this.repository.schema(schema).create<Model<UserEntity>>(user, { transaction, include })
     const model = await createdUser.save()
     return { id: model.id, created: !!model.id }
   }

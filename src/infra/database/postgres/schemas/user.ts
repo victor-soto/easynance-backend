@@ -1,4 +1,4 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript'
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
 
 import { RoleSchema } from './role'
 import { UserRoleSchema } from './user_role'
@@ -28,4 +28,7 @@ export class UserSchema extends Model {
 
   @BelongsToMany(() => RoleSchema, () => UserRoleSchema)
   roles: RoleSchema[]
+
+  @HasMany(() => UserRoleSchema)
+  userRoles: UserRoleSchema[]
 }

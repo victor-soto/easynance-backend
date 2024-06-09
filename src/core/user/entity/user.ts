@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { Role, RoleEntitySchema } from '@/core/role/entity/role'
+import { UserRole, UserRoleEntitySchema } from '@/core/user-role/entity/user-role'
 import { BaseEntity } from '@/utils/entity'
 
 export const UserEntitySchema = z.object({
@@ -11,7 +12,8 @@ export const UserEntitySchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   active: z.boolean().default(true),
-  roles: z.array(RoleEntitySchema).optional()
+  roles: z.array(RoleEntitySchema).optional(),
+  userRoles: z.array(UserRoleEntitySchema).optional()
 })
 
 type User = z.infer<typeof UserEntitySchema>
@@ -24,6 +26,7 @@ export class UserEntity extends BaseEntity<UserEntity>(UserEntitySchema) {
   lastName: string
   active: boolean
   roles: Role[]
+  userRoles: UserRole[]
 
   constructor(entity: User) {
     super()
